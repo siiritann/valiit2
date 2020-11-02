@@ -2,17 +2,40 @@ package ee.bcs.valiit.tasks;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Scanner;
 
 public class Lesson2 {
 
     public static void main(String[] args) {
-        exercise7();
+//        exercise1();
+//        exercise2(1);
+//        exercise3(4,5);
+//        exercise3(3,3);
+/*        fibonacci(3);
+        fibonacci(4);
+        fibonacci(5);
+        fibonacci(6);
+        fibonacci(7);
+        fibonacci(8);*/
+        exercise5(22);
     }
 
     public static void exercise1() {
         // TODO loo 10 elemendile täisarvude massiv
         // TODO loe sisse konsoolist 10 täisarvu
         // TODO trüki arvud välja vastupidises järiekorras
+
+        int[] arr = new int[10];
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println("Please insert a number: ");
+            arr[i] = scanner.nextInt();
+        }
+
+        for (int i = arr.length-1; i >= 0; i--) {
+            System.out.println(arr[i]);
+        }
+
     }
 
     public static void exercise2(int x) {
@@ -20,6 +43,12 @@ public class Lesson2 {
         // Näide:
         // Sisend 5
         // Väljund 2 4 6 8 10
+        int limit = x*2;
+        for (int i = 1; i <= limit; i++) {
+            if (i % 2 == 0) {
+                System.out.println(i);
+            }
+        }
     }
 
     public static void exercise3(int x, int y) {
@@ -29,6 +58,13 @@ public class Lesson2 {
         // 1 2 3
         // 2 4 6
         // 3 6 9
+
+        for (int i = 1; i <= y; i++) {
+            for (int j = 1; j <= x; j++) {
+                System.out.print(j*i + " ");
+            }
+            System.out.print("\n");
+        }
     }
 
     public static int fibonacci(int n) {
@@ -36,11 +72,44 @@ public class Lesson2 {
         // Fibonacci jada on fib(n) = fib(n-1) + fib(n-2);
         // 0, 1, 1, 2, 3, 5, 8, 13, 21
         // Tagasta fibonacci jada n element
-        return 0;
+
+        if (n <= 0) {
+            System.out.println(0);
+            return 0;
+        } else if (n == 1) {
+            System.out.println(n);
+            return n;
+        }
+
+        int fib = 1;
+        int previousFib = 1;
+        for (int i = 2; i < n; i++){
+            int temp = fib;
+            fib+= previousFib;
+            previousFib = temp;
+        }
+
+        System.out.println(fib);
+        return fib;
     }
 
-    public static void exercise5() {
+    public static void exercise5(int n) {
         // https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=36
+
+        // TODO 1 - alamfun mis leiab 3n+1 sequence-i pikkuse e kogu see jada
+
+        // TODO 2 - tee tsükkel mis leiab i -> j kõige suurema tsükli pikkuse
+
+       // tee sequence
+
+        if (n == 1) {
+            System.out.println(n);
+        } else if (n % 2 == 0) {
+            System.out.println(n);
+        } else {
+            System.out.println(3n+1);
+        }
+
     }
 
     public static void exercise6() {
@@ -77,6 +146,8 @@ public class Lesson2 {
     public static void exercise9() {
         /* TODO
         Sama mis eelmises ülesandes aga ära kasuta BigInt ega BigDecimal klassi
+         */
+        /* Vihje: on kasutatud liste, stringe, arraysid, paned igasse sellesse ühe elemendi ja siis liidad omavhael läbi
          */
     }
 
