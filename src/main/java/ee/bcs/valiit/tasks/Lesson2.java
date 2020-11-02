@@ -102,13 +102,19 @@ public class Lesson2 {
 
        // tee sequence
 
-        if (n == 1) {
-            System.out.println(n);
-        } else if (n % 2 == 0) {
-            System.out.println(n);
-        } else {
-            System.out.println(3n+1);
+        while (n != 1) {
+            if (n % 2 == 0) {
+                n = n/2;
+                System.out.println("n is even: " + n);
+            } else {
+                n = 3*n + 1;
+                System.out.println("n isn't even: " + n);
+
+            }
         }
+        System.out.println("STOP with 1 + " + n);
+
+
 
     }
 
