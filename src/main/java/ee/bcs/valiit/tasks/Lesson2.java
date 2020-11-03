@@ -1,8 +1,9 @@
 package ee.bcs.valiit.tasks;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Scanner;
+import java.util.*;
 
 public class Lesson2 {
 
@@ -22,6 +23,27 @@ public class Lesson2 {
         exercise5(201, 210);
         exercise5(900, 1000);*/
 
+//        test();
+        exercise6();
+
+        int[] arr = new int[]{1,34,6};
+        calcMinFromArr(arr);
+        calcMaxFromArr(arr);
+
+
+
+    }
+// vaheta ära a ja b asukoht nii, et ei võta kasutusele kolmandat muutujat
+// hea tööintervjuu ül
+    public static void test() {
+        int a = 14;
+        int b = 80;
+
+        a = a + b;
+        b = a - b;
+        a = a - b;
+
+        System.out.println(a + " / " + b);
     }
 
     public static void exercise1() {
@@ -133,11 +155,59 @@ public class Lesson2 {
             a) sorteerib külastuspäevad külastajate arvu järgi kasvavalt ning prindib tulemuse konsoolile;
             b) prindib konsoolile päeva, mil külastajaid oli kõige rohkem.
             Faili asukoht tuleb programmile ette anda käsurea parameetrina.
-
-            TODO 1 -
-
+            TODO 3 - lisa olemasolevasse loogikasse teine muutuja milleks on kuupäev
+            TODO 4 - faili lugemine
          */
 
+        try {
+            readLinesFromFile();
+        } catch (Exception e) {
+            System.out.println("Didn't find file");
+        };
+
+
+//        arr[1] = b;
+//        arr[2] = c;
+//        Arrays.sort(arr);
+//        System.out.println(Arrays.toString(arr));
+//        System.out.println(calcMax(arr));*/
+
+    }
+
+    public static void readLinesFromFile() throws  Exception {
+        File file = new File("C:\\Users\\opilane\\Desktop\\vali-it\\src\\main\\resources\\test_data\\visits.txt");
+        Scanner scanner = new Scanner(file);
+        int length = 0;
+        String [] dates = new String[length];
+        dates[0] = "2018-01-01";
+        System.out.println(dates[0]);
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            length++;
+        }
+        System.out.println(length);
+    }
+
+    public static int calcMaxFromArr(int[] inputArray) {
+        int maxValue = inputArray[0];
+        for (int i = 0; i < inputArray.length; i++) {
+            if(inputArray[i] > maxValue) {
+                maxValue = inputArray[i];
+            }
+        }
+        System.out.println(maxValue);
+        return maxValue;
+    }
+
+    public static int calcMinFromArr(int[] inputArray) {
+        int minValue = inputArray[0];
+        for (int i = 0; i < inputArray.length; i++) {
+            if(inputArray[i] < minValue) {
+                minValue = inputArray[i];
+            }
+        }
+        System.out.println(minValue);
+        return minValue;
     }
 
     public static void exercise7() {
