@@ -17,7 +17,11 @@ public class Lesson2 {
         fibonacci(6);
         fibonacci(7);
         fibonacci(8);*/
-        exercise5(22);
+/*        exercise5(1, 10);
+        exercise5(100, 200);
+        exercise5(201, 210);
+        exercise5(900, 1000);*/
+
     }
 
     public static void exercise1() {
@@ -32,7 +36,7 @@ public class Lesson2 {
             arr[i] = scanner.nextInt();
         }
 
-        for (int i = arr.length-1; i >= 0; i--) {
+        for (int i = arr.length - 1; i >= 0; i--) {
             System.out.println(arr[i]);
         }
 
@@ -43,7 +47,7 @@ public class Lesson2 {
         // Näide:
         // Sisend 5
         // Väljund 2 4 6 8 10
-        int limit = x*2;
+        int limit = x * 2;
         for (int i = 1; i <= limit; i++) {
             if (i % 2 == 0) {
                 System.out.println(i);
@@ -61,7 +65,7 @@ public class Lesson2 {
 
         for (int i = 1; i <= y; i++) {
             for (int j = 1; j <= x; j++) {
-                System.out.print(j*i + " ");
+                System.out.print(j * i + " ");
             }
             System.out.print("\n");
         }
@@ -83,39 +87,44 @@ public class Lesson2 {
 
         int fib = 1;
         int previousFib = 1;
-        for (int i = 2; i < n; i++){
+        for (int i = 2; i < n; i++) {
             int temp = fib;
-            fib+= previousFib;
+            fib += previousFib;
             previousFib = temp;
         }
-
         System.out.println(fib);
         return fib;
     }
 
-    public static void exercise5(int n) {
+    public static void exercise5(int i, int j) {
         // https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=36
 
         // TODO 1 - alamfun mis leiab 3n+1 sequence-i pikkuse e kogu see jada
-
         // TODO 2 - tee tsükkel mis leiab i -> j kõige suurema tsükli pikkuse
 
-       // tee sequence
+        int maxLength = 0;
 
-        while (n != 1) {
-            if (n % 2 == 0) {
-                n = n/2;
-                System.out.println("n is even: " + n);
-            } else {
-                n = 3*n + 1;
-                System.out.println("n isn't even: " + n);
-
+        for (int k = i; k <= j; k++) {
+            int lengthOfThisArray = calcCycleLength(k);
+            if (lengthOfThisArray > maxLength) {
+                maxLength = lengthOfThisArray;
             }
         }
-        System.out.println("STOP with 1 + " + n);
+        System.out.println("i: " + i + " , j: " + j + " , maxLength: " + maxLength);
+    }
 
-
-
+    public static int calcCycleLength(int k) {
+        int countSeq = 1;
+        while (k != 1) {
+            if (k % 2 == 0) {
+                k = k / 2;
+                countSeq++;
+            } else {
+                k = 3 * k + 1;
+                countSeq++;
+            }
+        }
+        return countSeq;
     }
 
     public static void exercise6() {
@@ -124,7 +133,11 @@ public class Lesson2 {
             a) sorteerib külastuspäevad külastajate arvu järgi kasvavalt ning prindib tulemuse konsoolile;
             b) prindib konsoolile päeva, mil külastajaid oli kõige rohkem.
             Faili asukoht tuleb programmile ette anda käsurea parameetrina.
+
+            TODO 1 -
+
          */
+
     }
 
     public static void exercise7() {
