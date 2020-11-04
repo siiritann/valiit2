@@ -13,19 +13,22 @@ public class Lesson3 {
 //        sumForArray(arr);
 //        factorial(5);
 //        reverseString("qwerty");
-        isPrime(169);
-
-
+//        isPrime(5);
+//        isPrime(6);
+//        isPrime(7);
+//        isPrime(-13);
+//        isPrime(11);
+//        isPrime(12);
+//        isPrime(13);
+//        isPrime(89);
+//        isPrime(10007);
+//        isPrime(10008);
     }
 
-    private static void test(Map<String, String> testMap) {
-        testMap.put("test", "test");
-    }
 
     public static int uusSumma(int x, int y) {
         // TODO liida kokku ja tagasta x ja y väärtus
-        System.out.println(x + y);
-        return x + y;
+        return (x+y);
     }
 
     public static int sumForArray(int[] x) {
@@ -87,15 +90,17 @@ public class Lesson3 {
     public static boolean isPrime(int x) {
         // TODO tagasta kas sisestatud arv on primaar arv (jagub ainult 1 ja iseendaga)
 
-        for (int i = 0; i < x; i++) {
-            if (x > 1 && x % 2 == 0) {
+        if (x <= 1) {
+            return false;
+        }
+
+        for (int i = 2; i < x/2; i++) {
+            if (x % i == 0) {
                 System.out.println(false);
                 return false;
             }
-
         }
         System.out.println(true);
         return true;
     }
-
 }
