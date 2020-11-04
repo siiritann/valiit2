@@ -2,6 +2,7 @@ package ee.bcs.valiit.tasks;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.*;
 
@@ -26,12 +27,11 @@ public class Lesson2 {
         exercise5(201, 210);
         exercise5(900, 1000);*/
 
-        exercise6();
-//
+//        exercise6();//
 //        int[] arr = new int[]{1,34,6};
 //        calcMinFromArr(arr);
 //        calcMaxFromArr(arr);
-
+        exercise7();
 
     }
 
@@ -257,12 +257,22 @@ public class Lesson2 {
 
     public static void exercise7() {
         // TODO arvuta kasutades BigDecimali 1.89 * ((394486820340 / 15 ) - 4 )
-        BigDecimal a = new BigDecimal("1.89");
-        BigDecimal b = new BigDecimal("394486820345");
-        BigDecimal c = new BigDecimal("15");
-        BigDecimal d = new BigDecimal("4");
 
-        System.out.println(b.divide(c, 4, RoundingMode.HALF_UP));
+        BigDecimal a1 = new BigDecimal(1.89);
+        BigDecimal a2 = BigDecimal.valueOf(1.89);
+        BigDecimal a3 = new BigDecimal("1.89");
+
+        BigDecimal b = new BigDecimal("394486820340");
+        BigDecimal c =  new BigDecimal("15");
+        BigDecimal d =  new BigDecimal("4");
+
+        BigDecimal result1 = a1.multiply(b.divide(c).subtract(d));
+        BigDecimal result2 = a2.multiply(b.divide(c).subtract(d));
+        BigDecimal result3 = a3.multiply(b.divide(c).subtract(d));
+
+        System.out.println(result1);
+        System.out.println(result2);
+        System.out.println(result3);
     }
 
     public static void exercise8() {
