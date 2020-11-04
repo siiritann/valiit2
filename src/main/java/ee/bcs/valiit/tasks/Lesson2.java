@@ -5,37 +5,39 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+import static ee.bcs.valiit.tasks.Lesson3.sort;
+
 public class Lesson2 {
 
     public static void main(String[] args) {
 //        exercise1();
-//        exercise2(1);
+//        exercise2(4);
 //        exercise3(4,5);
 //        exercise3(3,3);
+//        test();
 /*        fibonacci(3);
         fibonacci(4);
         fibonacci(5);
         fibonacci(6);
         fibonacci(7);
         fibonacci(8);*/
-/*        exercise5(1, 10);
+/*      exercise5(1, 10);
         exercise5(100, 200);
         exercise5(201, 210);
         exercise5(900, 1000);*/
 
-//        test();
         exercise6();
-
-        int[] arr = new int[]{1,34,6};
-        calcMinFromArr(arr);
-        calcMaxFromArr(arr);
-
+//
+//        int[] arr = new int[]{1,34,6};
+//        calcMinFromArr(arr);
+//        calcMaxFromArr(arr);
 
 
     }
-// vaheta ära a ja b asukoht nii, et ei võta kasutusele kolmandat muutujat
-// hea tööintervjuu ül
-    public static void test() {
+
+
+    public static void test() {    // vaheta ära a ja b asukoht nii, et ei võta kasutusele kolmandat muutujat
+//      hea tööintervjuu ül
         int a = 14;
         int b = 80;
 
@@ -69,8 +71,7 @@ public class Lesson2 {
         // Näide:
         // Sisend 5
         // Väljund 2 4 6 8 10
-        int limit = x * 2;
-        for (int i = 1; i <= limit; i++) {
+        for (int i = 1; i <= x * 2; i++) {
             if (i % 2 == 0) {
                 System.out.println(i);
             }
@@ -154,44 +155,88 @@ public class Lesson2 {
             Kirjutada Java programm, mis loeb failist visits.txt sisse looduspargi külastajad erinevatel jaanuari päevadel ning
             a) sorteerib külastuspäevad külastajate arvu järgi kasvavalt ning prindib tulemuse konsoolile;
             b) prindib konsoolile päeva, mil külastajaid oli kõige rohkem.
-            Faili asukoht tuleb programmile ette anda käsurea parameetrina.
-            TODO 3 - lisa olemasolevasse loogikasse teine muutuja milleks on kuupäev
-            TODO 4 - faili lugemine
+            //  POLE VAJA - Faili asukoht tuleb programmile ette anda käsurea parameetrina.
+
+            Küsimused
+            1. a) prindin konsoolile mille - ainult kuupäevad? - mõlemad veerud
+            2. Kuidas hoiustan date tüüpi? > string
+
          */
 
+        //  tema näide
+/*
+        BigDecimal b1 = BigDecimal.ONE;
+        BigDecimal b2 = BigDecimal.TEN;
+        System.out.println(b1.compareTo(b2));
+        if (b1.compareTo(b2) == -1){
+            System.out.println("True");
+        }
+*/
+
         try {
-            readLinesFromFile();
+            List<Visit> visits = readLinesFromFileToArr();
+            visits.sort(new Comparator<Visit>() {
+                @Override
+                public int compare(Visit o1, Visit o2) {
+//                    return o1.getVisits() - o2.getVisits();
+                    if (o1.getVisits() < o2.getVisits()) {
+//                        System.out.println(-1);
+                        return -1;
+                    } else if (o1.getVisits() > o2.getVisits()) {
+//                        System.out.println(1);
+                        return 1;
+                    } else
+//                        System.out.println(0);
+                    return 0;
+                } // TODO - compare vs Comparator
+            });
+
+            for (int i = 0; i < visits.size(); i++) {
+                System.out.println(visits.get(i).getDate() + ", " + visits.get(i).getVisits());
+            }
+
+            String minVisitorsDate = visits.get(0).getDate();
+            System.out.println("Päev, mil külastajaid on kõige vähem: " + minVisitorsDate);
+            String maxVisitorsDate = visits.get(visits.size()-1).getDate();
+            System.out.println("Päev, mil külastajaid on kõige rohkem: " + maxVisitorsDate);
+
         } catch (Exception e) {
             System.out.println("Didn't find file");
         };
-
-
-//        arr[1] = b;
-//        arr[2] = c;
-//        Arrays.sort(arr);
-//        System.out.println(Arrays.toString(arr));
-//        System.out.println(calcMax(arr));*/
-
     }
 
-    public static void readLinesFromFile() throws  Exception {
+    public static List readLinesFromFileToArr() throws Exception {
         File file = new File("C:\\Users\\opilane\\Desktop\\vali-it\\src\\main\\resources\\test_data\\visits.txt");
         Scanner scanner = new Scanner(file);
-        int length = 0;
-        String [] dates = new String[length];
-        dates[0] = "2018-01-01";
-        System.out.println(dates[0]);
+        ArrayList<Visit> visitsList = new ArrayList<>();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            length++;
+            String[] stringArr = line.split(", ");
+            Visit visit = new Visit(stringArr[0], Integer.parseInt(stringArr[1]));
+            visitsList.add(visit);
         }
-        System.out.println(length);
+
+        // print out final array elements
+/*
+         for (int i = 0; i < visitsList.size(); i++) {
+            System.out.println(" get visits " + visitsList.get(i).getVisits());
+            System.out.println(" get date " + visitsList.get(i).getDate());
+        }
+*/
+        // print out final array size
+//        System.out.println("size: " + visitsList.size());
+
+        return visitsList;
+    }
+
+    public static int findMaxFromArrList(ArrayList a) {
+        return 0;
     }
 
     public static int calcMaxFromArr(int[] inputArray) {
         int maxValue = inputArray[0];
         for (int i = 0; i < inputArray.length; i++) {
-            if(inputArray[i] > maxValue) {
+            if (inputArray[i] > maxValue) {
                 maxValue = inputArray[i];
             }
         }
@@ -202,7 +247,7 @@ public class Lesson2 {
     public static int calcMinFromArr(int[] inputArray) {
         int minValue = inputArray[0];
         for (int i = 0; i < inputArray.length; i++) {
-            if(inputArray[i] < minValue) {
+            if (inputArray[i] < minValue) {
                 minValue = inputArray[i];
             }
         }

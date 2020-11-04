@@ -74,6 +74,15 @@ public class Lesson3 {
         }
         System.out.println(Arrays.toString(arr));
         return arr;
+
+        // TODO 1 - leia arrayst a kõige väiksem number
+        // TODO 1.5 - salvesta mingisse muutujasse ka index int a_i millel vastav number oli
+        // TODO 2 - loo uus array b mis on sama suur kui array a
+        // TODO 3 - väärusta b[0] = varem leitud min väärtus
+        // TODO 4 - määrame a[a_i] = Integer.MAX_VALUE
+        // TODO 5 - tee tsükkel kus teeme kõike eelnevat ära a.length korda, kõigepealt täidame b[0] siis b[1) jne
+
+
     }
 
     public static String reverseString(String a) {
