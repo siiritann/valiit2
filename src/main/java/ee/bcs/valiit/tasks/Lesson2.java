@@ -1,6 +1,7 @@
 package ee.bcs.valiit.tasks;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -33,7 +34,7 @@ public class Lesson2 {
 //        calcMaxFromArr(arr);
 //        exercise7();
 //        exercise8();
-//        exercise9();
+        exercise9();
 
     }
 
@@ -332,30 +333,27 @@ public class Lesson2 {
             File file = new File("C:\\Users\\opilane\\Desktop\\vali-it\\src\\main\\resources\\test_data\\nums.txt");
             Scanner scanner = new Scanner(file);
 
-            ArrayList arrList = new ArrayList();
-
+            int noOfLines = 0;
+            int lengthOfLine = 60;
+            ArrayList finalAnswer = new ArrayList<>();
             while (scanner.hasNextLine()) {
                 String line = (scanner.nextLine());
-                for (int i = 0; i < line.length(); i++) {
-
-                }
-                int[] arr1 = new int[60];
+                noOfLines += 1;
             }
+            System.out.println("noOfLines: " + noOfLines);
+            while (scanner.hasNextLine()) {
+                for (int i = lengthOfLine-1; i < lengthOfLine; i++) {
+                    int lineSymbol = (scanner.nextInt());
+                    finalAnswer.add(finalAnswer.size()-1);
+                }
+            }
+
+//            for (int i = 0; i < ; i++) {
+//
+//            }
             //  lõppvastus
             // rida mida liidan otsa
 
-            int[] arr2 = new int[60];
-
-
-            System.out.println(arrList.size());
-
-            for (int i = 0; i < arrList.size(); i++) {
-
-                System.out.println(arrList.get(i));
-            }
-
-
-            System.out.println(arrList.size());
 
         } catch (Exception e) {
             System.out.println("Didn't find file");
