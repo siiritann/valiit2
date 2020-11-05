@@ -1,0 +1,79 @@
+[
+  {
+    "clientName": "Mari",
+    "clientAge": 23,
+    "clientAddress": "Tallinn Uus 123",
+    "cars": [
+      {
+        "mark": "Honda",
+        "model": "Civic",
+        "regNo": "123ABC"
+      },
+      {
+        "mark": "BMW",
+        "model": "x7",
+        "regNo": "122DFC"
+      },
+      {
+        "mark": "Maserati",
+        "regNo": "111AFC"
+      }
+    ]
+  },
+  {
+    "clientName": "Jüri",
+    "clientAge": 63,
+    "clientAddress": "Tallinn Lai 13",
+    "cars": [
+      {
+        "mark": "Nissan",
+        "model": "Quasqui",
+        "regNo": "999ABC"
+      },
+      {
+        "mark": "BMW",
+        "model": "x5",
+        "regNo": "122DFC"
+      },
+      {
+        "mark": "",
+        "regNo": "111AFC"
+      }
+    ]
+  },
+  {
+    "clientName": "Marta",
+    "clientAge": 13,
+    "clientAddress": "Tallinn Viru 8",
+    "cars": [
+      {
+        "mark": "BMW",
+        "model": "x3",
+        "regNo": "522DFC"
+      },
+      {
+        "mark": "Lexus",
+        "model": "x3",
+        "regNo": "872DFC"
+
+      }
+    ]
+  },
+  {
+  "clientName": "Marta",
+  "clientAge": 13,
+  "clientAddress": "Tallinn Viru 8",
+  "cars": [
+    {
+      "mark": "BMW",
+      "model": "x3",
+      "regNo": "522DFC"
+    },
+    {
+      "mark": "Lexus",
+      "model": "x3",
+      "regNo": "872DFC"
+    }
+  ]
+}
+]

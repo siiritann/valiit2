@@ -31,7 +31,9 @@ public class Lesson2 {
 //        int[] arr = new int[]{1,34,6};
 //        calcMinFromArr(arr);
 //        calcMaxFromArr(arr);
-        exercise7();
+//        exercise7();
+//        exercise8();
+//        exercise9();
 
     }
 
@@ -98,6 +100,7 @@ public class Lesson2 {
         // TODO
         // Fibonacci jada on fib(n) = fib(n-1) + fib(n-2);
         // 0, 1, 1, 2, 3, 5, 8, 13, 21
+        // nt 8 > 21
         // Tagasta fibonacci jada n element
 
         if (n <= 0) {
@@ -187,7 +190,7 @@ public class Lesson2 {
                         return 1;
                     } else
 //                        System.out.println(0);
-                    return 0;
+                        return 0;
                 } // TODO - compare vs Comparator
             });
 
@@ -197,12 +200,13 @@ public class Lesson2 {
 
             String minVisitorsDate = visits.get(0).getDate();
             System.out.println("Päev, mil külastajaid on kõige vähem: " + minVisitorsDate);
-            String maxVisitorsDate = visits.get(visits.size()-1).getDate();
+            String maxVisitorsDate = visits.get(visits.size() - 1).getDate();
             System.out.println("Päev, mil külastajaid on kõige rohkem: " + maxVisitorsDate);
 
         } catch (Exception e) {
             System.out.println("Didn't find file");
-        };
+        }
+        ;
     }
 
     public static List readLinesFromFileToArr() throws Exception {
@@ -263,8 +267,8 @@ public class Lesson2 {
         BigDecimal a3 = new BigDecimal("1.89");
 
         BigDecimal b = new BigDecimal("394486820340");
-        BigDecimal c =  new BigDecimal("15");
-        BigDecimal d =  new BigDecimal("4");
+        BigDecimal c = new BigDecimal("15");
+        BigDecimal d = new BigDecimal("4");
 
         BigDecimal result1 = a1.multiply(b.divide(c).subtract(d));
         BigDecimal result2 = a2.multiply(b.divide(c).subtract(d));
@@ -284,7 +288,31 @@ public class Lesson2 {
 
         VASTUS:
         Õige summa: 77378062799264987173249634924670947389130820063105651135266574
+
          */
+
+        try {
+            File file = new File("C:\\Users\\opilane\\Desktop\\vali-it\\src\\main\\resources\\test_data\\nums.txt");
+            Scanner scanner = new Scanner(file);
+            BigInteger sum = BigInteger.ZERO;
+            while (scanner.hasNextLine()) {
+                BigInteger lineSum = new BigInteger(scanner.nextLine());
+                sum = sum.add(lineSum);
+            }
+            System.out.println(sum);
+
+        } catch (Exception e) {
+            System.out.println("Didn't find file");
+
+        }
+
+
+  /*      BigInteger a = new BigInteger("838552682653532063442707163856417161475719071047513455907864");
+        BigInteger b = new BigInteger("648949689396999848781911817076973155576849197092442811518681");
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(a.add(b));
+        // ANSWER: 1487502372050531912224618980933390317052568268139956267426545*/
     }
 
     public static void exercise9() {
@@ -292,7 +320,48 @@ public class Lesson2 {
         Sama mis eelmises ülesandes aga ära kasuta BigInt ega BigDecimal klassi
          */
         /* Vihje: on kasutatud liste, stringe, arraysid, paned igasse sellesse ühe elemendi ja siis liidad omavhael läbi
+        string või int või long
+        8872321823168954529444726936086760359964895464710509197 1 7 3 1 2
+        6489496893969998487819118170769731555768491970924428115 1 8 6 8 1
+                                                                3 5 9 9 3
+        ja hakkad tagantpoolt numbreid kokku liitma
+
          */
+
+        try {
+            File file = new File("C:\\Users\\opilane\\Desktop\\vali-it\\src\\main\\resources\\test_data\\nums.txt");
+            Scanner scanner = new Scanner(file);
+
+            ArrayList arrList = new ArrayList();
+
+            while (scanner.hasNextLine()) {
+                String line = (scanner.nextLine());
+                for (int i = 0; i < line.length(); i++) {
+
+                }
+                int[] arr1 = new int[60];
+            }
+            //  lõppvastus
+            // rida mida liidan otsa
+
+            int[] arr2 = new int[60];
+
+
+            System.out.println(arrList.size());
+
+            for (int i = 0; i < arrList.size(); i++) {
+
+                System.out.println(arrList.get(i));
+            }
+
+
+            System.out.println(arrList.size());
+
+        } catch (Exception e) {
+            System.out.println("Didn't find file");
+
+        }
+
     }
 
 }
