@@ -33,7 +33,7 @@ public class Lesson2 {
 //        calcMinFromArr(arr);
 //        calcMaxFromArr(arr);
 //        exercise7();
-//        exercise8();
+        exercise8();
         exercise9();
 
     }
@@ -304,7 +304,6 @@ public class Lesson2 {
 
         } catch (Exception e) {
             System.out.println("Didn't find file");
-
         }
 
 
@@ -332,21 +331,42 @@ public class Lesson2 {
         try {
             File file = new File("C:\\Users\\opilane\\Desktop\\vali-it\\src\\main\\resources\\test_data\\nums.txt");
             Scanner scanner = new Scanner(file);
-
-            int noOfLines = 0;
-            int lengthOfLine = 60;
-            ArrayList finalAnswer = new ArrayList<>();
+            String sum = "0";
             while (scanner.hasNextLine()) {
-                String line = (scanner.nextLine());
-                noOfLines += 1;
+                String lineSum = scanner.nextLine();
+                sum = sum(sum, lineSum);
             }
-            System.out.println("noOfLines: " + noOfLines);
+            System.out.println(sum);
+
+        } catch (Exception e) {
+            System.out.println("Didn't find file");
+
+        }
+    }
+
+/*
+        try {*//*
+
+            //NEID POLE VAJA
+            //            int noOfLines = 0;
+//            int lengthOfLine = 60;
+//            ArrayList finalAnswer = new ArrayList<>();
+//            while (scanner.hasNextLine()) {
+//                String line = (scanner.nextLine());
+//                noOfLines += 1;
+//            }
+
+
+            //
+           *//**//* System.out.println("noOfLines: " + noOfLines);
             while (scanner.hasNextLine()) {
-                for (int i = lengthOfLine-1; i < lengthOfLine; i++) {
+                for (int i = lengthOfLine-1; i < lengthOfLine; i--) {
                     int lineSymbol = (scanner.nextInt());
-                    finalAnswer.add(finalAnswer.size()-1);
+                    int sum = lineSymbol;
+                    finalAnswer.add(i);
                 }
             }
+            System.out.println(finalAnswer.size());*//**//*
 
 //            for (int i = 0; i < ; i++) {
 //
@@ -358,8 +378,13 @@ public class Lesson2 {
         } catch (Exception e) {
             System.out.println("Didn't find file");
 
-        }
+        }*/
 
+
+
+    public static String sum(String a, String b){
+        return (new BigInteger(a)).add(new BigInteger(b)).toString();
+        // TODO kirjuta see funktsioon ümber nii et biginti ei kasuta
     }
 
 }
