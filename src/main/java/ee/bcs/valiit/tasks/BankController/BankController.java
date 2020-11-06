@@ -1,12 +1,18 @@
-package ee.bcs.valiit.tasks.controller;
+package ee.bcs.valiit.tasks.BankController;
 
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import ee.bcs.valiit.tasks.controller.Employee;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+@RestController
 public class BankController {
+    List<Account> accountsList = new ArrayList<>();
+    HashMap<Account, BigDecimal> accountBalances = new HashMap<Account, BigDecimal>();
+
     // createAccount (accountNr) // ei valideeri
     // depositMoney (accountNr, money) // sellele kontole lisa raha
     // withdrawMoney (accountNr, money) // sellelt kontolt raha maha, validatsioonid
@@ -20,9 +26,20 @@ public class BankController {
 
     /*
     konto info hoidke mapis mitte listis
-    sellisel juhul saab teha
-    @
      */
+
+    @GetMapping("/accounts")
+    public List<Account> getAccounts(){
+        return accountsList;
+    }
+
+    @PostMapping("/accounts/")
+    public List<Account> createAccount(@RequestBody Account a){
+        accountsList.add(a);
+        return accountsList;
+    }
+
+
 /*    @PutMapping("account")
     public void depositMoney(@RequestParam("accountNr") String accountNR,
                              @RequestParam("money")BigDecimal money){

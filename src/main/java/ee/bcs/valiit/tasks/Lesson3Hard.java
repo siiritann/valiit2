@@ -13,7 +13,7 @@ public class Lesson3Hard {
 //        evenFibonacci(10);
 //        randomGame();
 //        morseCode("tere");
-        evenFibonacci(9);
+//        evenFibonacci(9);
 
     }
 
