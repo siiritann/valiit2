@@ -17,12 +17,12 @@ public class Lesson2 {
 //        exercise3(4,5);
 //        exercise3(3,3);
 //        test();
-/*        fibonacci(3);
+        fibonacci(3);
         fibonacci(4);
         fibonacci(5);
         fibonacci(6);
         fibonacci(7);
-        fibonacci(8);*/
+        fibonacci(8);
 /*      exercise5(1, 10);
         exercise5(100, 200);
         exercise5(201, 210);
@@ -33,8 +33,9 @@ public class Lesson2 {
 //        calcMinFromArr(arr);
 //        calcMaxFromArr(arr);
 //        exercise7();
-        exercise8();
-        exercise9();
+//        exercise8();
+//        exercise9();
+//        sum();
 
     }
 
@@ -99,10 +100,10 @@ public class Lesson2 {
 
     public static int fibonacci(int n) {
         // TODO
+        // Tagasta fibonacci jada n element
         // Fibonacci jada on fib(n) = fib(n-1) + fib(n-2);
         // 0, 1, 1, 2, 3, 5, 8, 13, 21
         // nt 8 > 21
-        // Tagasta fibonacci jada n element
 
         if (n <= 0) {
             System.out.println(0);
@@ -328,7 +329,7 @@ public class Lesson2 {
 
          */
 
-        try {
+        /*try {
             File file = new File("C:\\Users\\opilane\\Desktop\\vali-it\\src\\main\\resources\\test_data\\nums.txt");
             Scanner scanner = new Scanner(file);
             String sum = "0";
@@ -341,7 +342,7 @@ public class Lesson2 {
         } catch (Exception e) {
             System.out.println("Didn't find file");
 
-        }
+        }*/
     }
 
 /*
@@ -382,9 +383,43 @@ public class Lesson2 {
 
 
 
-    public static String sum(String a, String b){
-        return (new BigInteger(a)).add(new BigInteger(b)).toString();
+   public static String sum(){
+        String a = "7864";
+//        String b = "648949689396999848781911817076973155576849197092442811518681";
+//        int[] arr1 = a; //{4, 6, 8, 7}
+       int[] arr1 = new int[4]; //{4, 6, 8, 7}
+
+
+       // int array kus iga array element on üks stringi element
+//       for (int i = 0; i < a.length(); i++) {
+//           String b  = a.substring(i, i+1);
+//           arr1[i] = Integer.parseInt(b);
+//       }
+
+       // int array kus iga array element on vastupidises suunas üks stringi element
+//       for (int i = 0; i < a.length()-1; i++) {
+//           for (int j = a.length()-1; j >= 0; j++) {
+//
+//           }
+//       }
+
+       for (int i = a.length()-1; i >= 0; i--) {
+           int j = 0;
+           String b  = a.substring(j, j+1);
+           arr1[i] = Integer.parseInt(b);
+           System.out.println("arr1[i] " + arr1[i]);
+       }
+
+       for (int i = 0; i < arr1.length; i++) {
+           System.out.println(arr1[i]);
+       }
+
+
+        String finalSum = "";
+        return finalSum;
+//        return (new BigInteger(a)).add(new BigInteger(b)).toString();*/
         // TODO kirjuta see funktsioon ümber nii et biginti ei kasuta
+//        int intSum = Integer.parseInt(a) + Integer.parseInt(b); // EI TÖÖTA
     }
 
 }

@@ -13,6 +13,9 @@ import static ee.bcs.valiit.tasks.Lesson2.fibonacci;
 //@RequestMapping("test") // see rida paneb kõikide järgmiste urlide ette test ja alles siis tuleb see osa mis on iga mappingu juures kirjas
 @RestController
 public class TestController {
+    List<Employee> employeeList = new ArrayList<>();
+    List<Employee2> employeeList2 = new ArrayList<>();
+
 
 //    @GetMapping(value = "/") // see on http GET päring
 //    // kui keegi teeb päringu home page-i pihta siis pane see asi tööle
@@ -36,14 +39,14 @@ public class TestController {
     }
 
     ;
-    // URL = http://localhost:8080/employee/midagi?employeeId=5
-    @GetMapping("/employee/{midagi}")
-    public String pathParTest(@PathVariable("midagi") String mingiTekst,
-                              @RequestParam("employeeId") Long employeeId,
-                              @RequestParam(value = "testID", required = false)
-                                      Long optional) {
-        return mingiTekst + " :) " + employeeId;
-    }
+//    // URL = http://localhost:8080/employee/midagi?employeeId=5
+//    @GetMapping("/employee/{midagi}")
+//    public String pathParTest(@PathVariable("midagi") String mingiTekst,
+//                              @RequestParam("employeeId") Long employeeId,
+//                              @RequestParam(value = "testID", required = false)
+//                                      Long optional) {
+//        return mingiTekst + " :) " + employeeId;
+//    }
 
     @GetMapping("/fibo")
     public int fibo(@RequestParam("nr") int nr) {
@@ -119,6 +122,79 @@ public class TestController {
     }
 
     // VASTUS: http://localhost:8080/a/a/a/string/12/c?a=string&b=2
+
+
+
+    @GetMapping("dtotest")
+    public Employee getEmployee(){
+        Employee e = new Employee("firstGet", "lastGet", "12");
+//        e.setFirstName("firstSecond");
+//        e.setLastName("a");
+        return e;
+    }
+
+    @PostMapping("dtotest")
+    public List<Employee> setEmployee(@RequestBody Employee employee){
+//    public List<Employee> setEmployee(@RequestBody List<Employee> employee){
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(employee);
+        Employee e1 = new Employee("Siiri", "Tann", "29");
+        employeeList.add(e1);
+        Employee e2 = new Employee("Misha", "Masha", "39");
+        employeeList.add(e2);
+        return employeeList;
+    }
+
+    /*
+     EMPLOYEES ENDPOINTS ARE HERE
+    */
+
+    @GetMapping("employees")
+    public List<Employee> getEmployeesList(){
+        return employeeList;
+    }
+
+    @PutMapping("employee/{id}")
+    public List<Employee> putNewEmployee(@RequestBody Employee e,
+                                         @PathVariable("id") int id
+    ) {
+        employeeList.add(e);
+        return employeeList;
+    }
+
+    // KATKI
+    @GetMapping("employee/{id}")
+    public Employee getOneEmployee(@PathVariable("id") int id){
+        if (id < employeeList.size()){
+        return employeeList.get(id);
+        } else return employeeList.get(1);
+    }
+
+    @PostMapping("/employee")
+    public Employee putNewEmployee2(@RequestBody Employee e) {
+        employeeList.add(e);
+        return employeeList.get(1);
+    }
+
+    @DeleteMapping("/employee/{id}")
+    public List<Employee> deleteEmployee(@PathVariable("id") int id){
+        employeeList.remove(id);
+        return employeeList;
+    }
+
+//  Kuidas teha nii et võtab sisse mitu
+//  võib proovida - uus objekt milles on id olemas , sis pathvariable pole vaja
+//    @PutMapping("dtotest")
+//    public List<Employee2> putMultipleEmployees(@RequestBody List<Employee> employeesList) {
+//        for (int i = 0; i < employeesList.size(); i++) {
+//            Employee2 e = new Employee2();
+//            employeeList2.add(e);
+//        }
+//        return employeeList2;
+//    }
+
+
+
 
 
 }
