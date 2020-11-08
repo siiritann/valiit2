@@ -54,6 +54,22 @@ public class Lesson3Hard {
     }
 
 
+    public static int evenFiboSiiri(int n){
+        int sum = 0;
+        int firstFib = 0;
+        int secondFib = 1;
+        for (int i = 2; i <= n; i++) {
+            int third = firstFib + secondFib;
+            firstFib = secondFib;
+            secondFib = third;
+            if (third % 2 == 0){
+                sum+= third;
+            }
+        }
+        System.out.println("sum " + sum);
+        return sum;
+    }
+
     public static void randomGame(){
         // TODO kirjuta mäng mis võtab suvalise numbri 0-100, mille kasutaja peab ära arvama
         // iga kord pärast kasutaja sisestatud täis arvu peab programm ütlema kas number oli suurem või väiksem

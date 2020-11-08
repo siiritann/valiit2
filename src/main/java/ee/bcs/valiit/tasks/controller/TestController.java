@@ -1,8 +1,11 @@
 package ee.bcs.valiit.tasks.controller;
 
 import com.sun.jdi.request.StepRequest;
+import ee.bcs.valiit.tasks.Visit;
+import org.apache.catalina.connector.Request;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,11 @@ public class TestController {
 //        return mingiTekst + " :) " + employeeId;
 //    }
 
+    @PostMapping("bodytest")
+    public String test(@RequestBody Visit v){
+        return "OK";
+    }
+
     @GetMapping("/fibo")
     public int fibo(@RequestParam("nr") int nr) {
         return fibonacci(nr);
@@ -76,9 +84,9 @@ public class TestController {
 
     @GetMapping("/users/{userId}/contracts/{nr}")
     public String testYl(@PathVariable("userId") int userId,
-            @PathVariable("nr") int nr,
-//            @RequestParam(value = "filterBy", required = false) String status ) {
-            @RequestParam("filterBy") String status ) {
+                         @PathVariable("nr") int nr,
+//                       @RequestParam(value = "filterBy", required = false) String status ) {
+                         @RequestParam("filterBy") String status) {
         return "userId " + userId + ", nr " + nr;
     }
 
@@ -162,7 +170,6 @@ public class TestController {
         return employeeList;
     }
 
-    // KATKI
     @GetMapping("employee/{id}")
     public Employee getOneEmployee(@PathVariable("id") int id){
         if (id < employeeList.size()){

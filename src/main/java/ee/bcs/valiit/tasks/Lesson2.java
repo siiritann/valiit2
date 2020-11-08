@@ -113,8 +113,8 @@ public class Lesson2 {
             return n;
         }
 
-        int fib = 1;
         int previousFib = 1;
+        int fib = 1;
         for (int i = 2; i < n; i++) {
             int temp = fib;
             fib += previousFib;
@@ -122,6 +122,23 @@ public class Lesson2 {
         }
         System.out.println(fib);
         return fib;
+    }
+
+
+    public static int fibonacciSiiri(int n){
+        if(n <= 1){
+            System.out.println("n " + n);
+            return n;
+        }
+        int firstFib = 0;
+        int secondFib = 1;
+        for (int i = 2; i <= n ; i++) {
+            int temp = firstFib + secondFib;
+            firstFib = secondFib;
+            secondFib = temp;
+        }
+        System.out.println("secondFib " + secondFib);
+        return secondFib;
     }
 
     public static void exercise5(int i, int j) {

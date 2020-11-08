@@ -1,14 +1,13 @@
 package ee.bcs.valiit.tasks;
 
-import org.yaml.snakeyaml.util.ArrayUtils;
-
-import java.util.*;
+import java.util.Arrays;
 
 public class Lesson3 {
 
     public static void main(String[] args) {
-        int[] arr = new int[]{2, 1, 1, 1};
-//        sort(arr);
+        int[] arr = new int[]{2, 1, 21, 13};
+        sortSiiri(arr);
+
 //        uusSumma(-2,44);
 //        sumForArray(arr);
 //        factorial(5);
@@ -82,6 +81,38 @@ public class Lesson3 {
         // TODO 4 - määrame a[a_i] = Integer.MAX_VALUE
         // TODO 5 - tee tsükkel kus teeme kõike eelnevat ära a.length korda, kõigepealt täidame b[0] siis b[1) jne
 
+
+    }
+
+
+    public static int[] sortSiiri(int[] arr){
+        int[] arrNew = new int[arr.length];
+        int smallest = arr[0];
+        int indexOfSmallest = arr[0]; // positsioon kus leidus smallest väärtus
+
+        for (int j = 0; j < arrNew.length; j++) { // kirjutab uude massiivi väärtusi
+            for (int i = 0; i < arr.length; i++) { // otsib sisemisest massiivist väärtusi
+                if (arr[i] <= smallest) {
+                    smallest = arr[i];
+                    indexOfSmallest = i;
+                }
+            }
+            arrNew[j] = smallest;
+            smallest = Integer.MAX_VALUE;
+            arr[indexOfSmallest] = Integer.MAX_VALUE;
+        }
+
+        // prindi välja uus array
+        for (int i = 0; i < arrNew.length; i++) {
+            System.out.println(arrNew[i]);
+        }
+
+        // prindi välja vana array
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+
+        return arrNew;
 
     }
 
