@@ -362,6 +362,11 @@ public class Lesson2 {
         }*/
     }
 
+    // int array > igas arrya elemendis hoian ühte täisarvu
+    // liidan 2 arrayd omavahel kokku, niie t hakkan paremalt poolt tulema
+    // kui tulemus on < 10 siis see on uus tulemus
+    // kui on suurem kui 10 siis võtad teise numbri ja paned esimese kusagile
+
 /*
         try {*//*
 
