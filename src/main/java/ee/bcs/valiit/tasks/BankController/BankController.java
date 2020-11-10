@@ -1,188 +1,222 @@
 package ee.bcs.valiit.tasks.BankController;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 @RestController
 public class BankController {
 
+    /* DOCUMENTATION
+
+    1 - CREATE ACCOUNT
+    2 - CREATE CLIENT
+    3 - DEPOSIT MONEY
+
+    * */
+    // küsimused
+    // 1) kui mul on konstruktor mis ei võta balanssi siis pannakse see nulliks?
+
     List<Client> clientsList = new ArrayList<>();
     private Map<String, Account> accounts = new HashMap<>();
 
-    // lihtsam
-    //    private Map<String, BigDecimal> accountBalance = new HashMap<>();
-    // raskem
-//    List<Account> accountsList = new ArrayList<>();
-
-    // createAccount (accountNr) // ei valideeri
-    // depositMoney (accountNr, money) // sellele kontole lisa raha
-    // withdrawMoney (accountNr, money) // sellelt kontolt raha maha, validatsioonid
-    // transferMoney (fromAccount, toAccount, money) // validatsioonid
-    // getAccountBalance (accNr) // kui palju raha mul on sellel kontol
-
-    // Raskem osa
-    // createClient(filterName, lastName, ...) //
-    // muuda createAccount (accountNr, clientId) // ühel kliendil saab olla mitu kontot
-    // getBalanceHistory(accountNr) // kõik tehingud selle kontoga
+    @Autowired // sellega loon db connectioni ja võtab info application.properites failist
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
 
     // Get list of accounts
     @GetMapping("accountslist")
-    public Collection<Account> test(){
+    public Collection<Account> test() {
         return accounts.values();
     }
 
 
-    // Create new account
-    // loomisel alati on balance null sest konstruktor on selliselt tehtud
+    // Create new account with balance WITH SQL
     @PostMapping("account")
-    public void createAccount(@RequestBody String accNo){
-        // lihtsam
-//        accountBalance.put(accNo, BigDecimal.ZERO);
-        // raskem
-        accounts.put(accNo, new Account(accNo));
+    public void createAccount(@RequestParam("accNo") String acc_no,
+                              @RequestParam("balance") BigInteger balance) {
+        String sql = "INSERT INTO account (acc_no, balance) VALUES (:accNo, :balance)";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("accNo", acc_no);
+        paramMap.put("balance", balance);
+        jdbcTemplate.update(sql, paramMap);
     }
 
+    // Create new account without balance WITH SQL
+    @PutMapping("accountwithoutbalance")
+    public void createAccountWithoutBalance(@RequestParam("accNo") String acc_no) {
+        String sql = "INSERT INTO account (acc_no, balance) VALUES (:acc_no, 0)";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("accNo", acc_no);
+        jdbcTemplate.update(sql, paramMap);
+    }
 
-    // Create new account with CLIENT
-    @PostMapping("accountforclient")
-    public void createAccountWithClient(@RequestBody String accNo,
-                                        @RequestParam int clientId){
-        // kõik asjad mille ees annotatsiooni ei ole, on RequestParam-id
-        // kui ma tahan request boydsse panna jsoni siis pean objekti tegema vastavate fieldidega
-        // lihtsam
+        // Create new account with CLIENT
+        // URL ex: http://localhost:8080/accountforclient?clientId=0&name=kiizu&address=Pärnu%20mnt%20187
+  /*      @PostMapping("accountforclient")
+        public void createAccountWithClient (@RequestBody String accNo,
+                                            @RequestParam int clientId,
+        String name, String address){ // need on RequestParam !
+            // kõik asjad mille ees annotatsiooni ei ole, on RequestParam-id
+            // kui ma tahan request boydsse panna jsoni siis pean objekti tegema vastavate fieldidega
+            // lihtsam
 //        accountBalance.put(accNo, BigDecimal.ZERO);
-        // raskem
-        // siia võib lisada unikaalsuse kontrolli: kui on siis ei luba teha seda, kui on siis luban teha
-        Account account = new Account(accNo);
-        accounts.put(accNo, account);
-        clientsList.get(clientId).getClientAccounts().add(account);
+            // raskem
+            // siia võib lisada unikaalsuse kontrolli: kui on siis ei luba teha seda, kui on siis luban teha
+
+            String sql = "INSERT INTO customer (name, address) " +
+                    "VALUES (:name, :address)";
+//        String sql2 = "INSERT INTO (name, address) VALUES ('" + name + "', :address)"; // see on SQL injection
+            Map<String, String> paramMap = new HashMap<>();
+//        paramMap.put("name", "Siim");
+//        paramMap.put("address", "Tallinn");
+            paramMap.put("name", name);
+            paramMap.put("address", address);
+            jdbcTemplate.update(sql, paramMap);
+
+            Account account = new Account(accNo);
+            accounts.put(accNo, account);
+//        clientsList.get(clientId).getClientAccounts().add(account); // TODO tekitab errori*/
 //          võib ka tükeldada
-        //        Client c = clientsList.get(clientId);
+            //        Client c = clientsList.get(clientId);
 //        c.getClientAccounts().add(account);
-    }
-
-    // depositMoney (accNo, money)
-    // example: http://localhost:8080/account?accNo=4000&money=1000
-    @PutMapping("account")
-    public void depositMoney(@RequestParam("accNo") String accNo,
-                             @RequestParam("money") BigDecimal money){
-        Account account = accounts.get(accNo);
-        BigDecimal oldValue = account.getBalance();
-        BigDecimal newValue = oldValue.add(money);
-        account.setBalance(newValue);
-        accounts.put(accNo, account);
-//        return "oldValue " + oldValue + ", newValue " + newValue + ", account " + account;
-    }
 
 
-    // withdrawMoney (accountNr, money)
-    // example: http://localhost:8080/account?accNo=4000&money=1000
-    @PatchMapping("account")
-    public String withdrawMoney(@RequestParam("accNo") String accNo,
+    // depositMoney (accNo, money) WITH SQL
+    @PutMapping("depositMoney")
+    public String depositMoney(@RequestParam("accNo") String accNo,
                                 @RequestParam("money") BigDecimal money) {
-        Account account = accounts.get(accNo);
-        BigDecimal oldValue = account.getBalance();
-        if (money.compareTo(oldValue) <= 0) {
-            BigDecimal newValue = oldValue.subtract(money);
-            account.setBalance(newValue);
-            return "Pls, here your money, go buy yourself something";
-        } else {
-            return "Not enough money";
+
+        // PART 1 - get current balance
+        String sqlGet = "SELECT balance FROM account WHERE acc_no = :accNo";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("accNo", accNo);
+        BigDecimal oldValue = jdbcTemplate.queryForObject(sqlGet, paramMap, BigDecimal.class); // see rida annab mulle vastuse andmebaasist
+
+        // PART 2 - update balance
+        String sqlSet = "UPDATE account SET balance = :balance WHERE acc_no = :accNo";
+        BigDecimal updatedAmount = oldValue.add(money.abs());
+        Map<String, Object> paramMap2 = new HashMap<>();
+        paramMap2.put("accNo", accNo);
+        paramMap2.put("balance", updatedAmount);
+        jdbcTemplate.update(sqlSet, paramMap2);
+
+        return "previous amount was " + oldValue + ", new amount is " + updatedAmount;
+    }
+
+
+        // withdrawMoney (accountNr, money) WITH SQL
+        @PatchMapping("withdrawMoney")
+        public String withdrawMoney (@RequestParam("accNo") String accNo,
+                @RequestParam("money") BigDecimal money){
+
+            // PART 1 - get current balance
+            String sqlGet = "SELECT balance FROM account WHERE acc_no = :accNo";
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("accNo", accNo);
+            BigDecimal oldValue = jdbcTemplate.queryForObject(sqlGet, paramMap, BigDecimal.class);
+
+            // PART 2 - update balance
+
+            if (money.compareTo(oldValue) <= 0) {
+                String sqlSet = "UPDATE account SET balance = :balance WHERE acc_no = :accNo";
+                BigDecimal newValue = oldValue.subtract(money.abs());
+                Map<String, Object> paramMap2 = new HashMap<>();
+                paramMap2.put("accNo", accNo);
+                paramMap2.put("balance", newValue);
+                jdbcTemplate.update(sqlSet, paramMap2);
+                return "previous amount was " + oldValue + ", new amount is " + newValue;
+            } else {
+                return "Not enough money";
+            }
         }
-    }
 
-    // transferMoney (fromAccount, toAccount, money)
-    @PatchMapping("accountTransfer")
-    public String transferMoney(@RequestParam("fromAccount") String accNo1,
-                                @RequestParam("toAccount") String accNo2,
-                                @RequestParam("money") BigDecimal money){
-        // get fromAccount's balance
+        // transferMoney WITH SQL
+        @PatchMapping("accountTransfer")
+        public String transferMoney(@RequestParam("fromAccount") String accNo1,
+                                    @RequestParam("toAccount") String accNo2,
+                                    @RequestParam("money") BigDecimal money) {
 
-        Account fromAccount = accounts.get(accNo1);
-        BigDecimal fromAccountBalance = fromAccount.getBalance();
-        Account toAccount = accounts.get(accNo2);
-        BigDecimal toAccountNewBalance = toAccount.getBalance();
+            // PART 1 - get current balance for both
 
-        if (money.compareTo(fromAccountBalance) <= 0) {
-            fromAccount.setBalance(fromAccountBalance.subtract(money));
-            toAccount.setBalance(toAccountNewBalance.add(money));
-            return String.format("Raha kantud kontolt %s kontole %s", accNo1, accNo2);
+            // get from Account balance
+            String sqlGet1 = "SELECT balance FROM account WHERE acc_no = :accNo1";
+            Map<String, Object> paramMapGet1 = new HashMap<>();
+            paramMapGet1.put("accNo1", accNo1);
+            BigDecimal oldValueFromAccount = jdbcTemplate.queryForObject(sqlGet1, paramMapGet1, BigDecimal.class);
 
-        } else {
-            return  String.format("Kontol fromAccount %s pole piisavalt vahendeid", accNo1);
+            // get to Account balance
+            String sqlGet2 = "SELECT balance FROM account WHERE acc_no = :accNo2";
+            Map<String, Object> paramMapGet2 = new HashMap<>();
+            paramMapGet2.put("accNo2", accNo2);
+            BigDecimal oldValueToAccount = jdbcTemplate.queryForObject(sqlGet2, paramMapGet2, BigDecimal.class);
+
+            // PART 2 - check if possible to make transfer
+            // PART 3 - update balance
+
+            if (money.compareTo(oldValueFromAccount) <= 0) {
+
+                // from Account update
+                String sqlSet1 = "UPDATE account SET balance = :balance WHERE acc_no = :accNo1";
+                BigDecimal newValueFromAccount = oldValueFromAccount.subtract(money.abs());
+                Map<String, Object> paramMapSet1 = new HashMap<>();
+                paramMapSet1.put("accNo1", accNo1);
+                paramMapSet1.put("balance", newValueFromAccount);
+                jdbcTemplate.update(sqlSet1, paramMapSet1);
+
+                // to Account update
+                String sqlSet2 = "UPDATE account SET balance = :balance WHERE acc_no = :accNo2";
+                BigDecimal newValueToAccount = oldValueToAccount.add(money.abs());
+                Map<String, Object> paramMapSet2 = new HashMap<>();
+                paramMapSet2.put("accNo2", accNo2);
+                paramMapSet2.put("balance", newValueToAccount);
+                jdbcTemplate.update(sqlSet2, paramMapSet2);
+
+
+                return "ACCOUNT 1: previous amount was " + oldValueFromAccount + ", new amount is " + newValueFromAccount + "\n" + "ACCOUNT 2: previous amount was " + oldValueToAccount + ", new amount is " + newValueToAccount;
+            } else {
+                return "Not enough money";
+            }
         }
 
-//        TODO Kas iga kord selle uuesti tegemise asemel saan juba getAccountBalance'it välja kutsuda?
 
-    }
-
-
-
-
-    // getAccountBalance (accountNr)
-    @GetMapping("account/{accNo}")
-    public BigDecimal getAccountBalance(@PathVariable("accNo") String accNo){
-        Account account = accounts.get(accNo);
-        return account.getBalance();
-    }
+        // getAccountBalance (accountNr)
+        @GetMapping("account/{accNo}")
+        public BigDecimal getAccountBalance (@PathVariable("accNo") String accNo){
+            Account account = accounts.get(accNo);
+            return account.getBalance();
+        }
 
 //      getBalanceHistory(accountNr)
-    @GetMapping("account/{accId}")
-    public void getBalanceHistory(@PathVariable("accId") String accId){
+        @GetMapping("account/{accId}")
+        public void getBalanceHistory (@PathVariable("accId") String accId){
 
-        return ;
+            return;
+        }
+
+
+        //    createClient WITH SQL
+        @PutMapping("clients")
+        public void createClient (@RequestParam("firstName") String firstName,
+                @RequestParam("lastName") String lastName){
+            String sql = "INSERT INTO client (first_name, last_name) " +
+                    "VALUES (:muutuja1, :muutuja2)";
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("muutuja1", firstName);
+            paramMap.put("muutuja2", lastName);
+            jdbcTemplate.update(sql, paramMap);
+
+        }
+
+        // get list of clients
+        @GetMapping("clients")
+        public List getClientsList () {
+            return clientsList;
+        }
+
+
     }
-
-
-/*    @PutMapping("account")
-    public void depositMoney(@RequestParam("accountNr") String accountNR,
-                             @RequestParam("money")BigDecimal money){
-        Map<String, Object> accounts = new HashMap<>();
-        accounts.put("EE123",null);
-        accounts.put("EE124",null);
-        accounts.put("EE125",null);
-        accounts.get("EE126");
-    }*/
-
-    // sisuliselt 2 veeruga tabel??
-    // mis on identifikaator, mille järgi tahame kätte saada -- paneme vasakule poole
-    // paremale poole paneme kogu objekti
-    // accountide puhul: key on konto nr ja value on objekt
-    // vasakul pool konto nr, parema pool konto jääk
-    // put kirjutab olemasoleva väärtuse üle
-    // saab olla ainult 1 unikaalne key, value'sid võib olla mitu korda
-
-
-//    public static void main(String[] args) {
-//        Map<String, BigDecimal> accounts = new HashMap<>();
-//        accounts.put("EE123", BigDecimal.ZERO);
-//        accounts.put("EE124",BigDecimal.TEN);
-//        accounts.put("EE125", new BigDecimal("234782934"));
-//        System.out.println(accounts.get("EE124")); // mapist on key järgi lihtne parempoolne väärtus kätte saada
-//    }
-
-
-    /*  CLIENT REQUEST MAPPINGS
-    */
-
-//    createClient(firstName lastName, ....)
-    @PostMapping("clients")
-    public void createClient(@RequestParam("firstName") String firstName,
-                             @RequestParam("lastName") String lastName) {
-        Client client = new Client(firstName, lastName);
-        clientsList.add(client);
-        client.setClientId(clientsList.size()); // suurendan clientId-d
-    }
-
-    // get list of clients
-    @GetMapping("clients")
-    public List getClientsList(){
-        return clientsList;
-    }
-
-
-}

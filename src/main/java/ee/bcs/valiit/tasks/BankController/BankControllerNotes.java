@@ -5,6 +5,13 @@ import java.util.List;
 
 public class BankControllerNotes {
 
+    // HASHMAP - sisuliselt 2 veeruga tabel
+    // mis on identifikaator, mille järgi tahame kätte saada -- paneme vasakule poole
+    // paremale poole paneme kogu objekti
+    // accountide puhul: key on konto nr ja value on objekt
+    // vasakul pool konto nr, parema pool konto jääk
+    // put kirjutab olemasoleva väärtuse üle
+    // saab olla ainult 1 unikaalne key, value'sid võib olla mitu korda
 //    List<Account> accountsList = new ArrayList<>();
 
        /*
