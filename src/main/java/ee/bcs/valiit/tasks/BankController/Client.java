@@ -10,6 +10,10 @@ public class Client {
     private List<Account> clientAccounts = new ArrayList<>(); // siin võib olla initializer ja võib ka mitte, mis hetkel ja kust saab objekt väärtuse
     // enne ei saa kasutada kui pole initsialiseeritud
 
+
+    public Client() {
+    }
+
     public int getClientId() {
         return clientId;
     }

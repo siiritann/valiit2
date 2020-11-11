@@ -3,20 +3,58 @@ package ee.bcs.valiit.tasks.BankController;
 import java.math.BigDecimal;
 
 public class BalanceHistory {
-    private BigDecimal BalanceHistory;
-    private String type;  // enum on overkill
+    private int id;
+    private String fromAccNo;
+    private String toAccNo;
+    private BigDecimal amount;
+    private String transactionType; // enum on overkill
 
-    public BalanceHistory(BigDecimal balanceHistory) {
-        BalanceHistory = balanceHistory;
+    public String getTransactionType() {
+        return transactionType;
     }
 
-    public BigDecimal getBalanceHistory() {
-        return BalanceHistory;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
-    public void setBalanceHistory(BigDecimal balanceHistory) {
-        BalanceHistory = balanceHistory;
+    public BalanceHistory() {
     }
 
-    //    private enum transactionType (deposit, withDraw);
+    public BalanceHistory(String fromAccNo, BigDecimal amount, String transactionType) {
+        this.fromAccNo = fromAccNo;
+        this.toAccNo = toAccNo;
+        this.amount = amount;
+        this.transactionType = transactionType;
+    }
+
+    public BalanceHistory(String fromAccNo, String toAccNo, BigDecimal amount, String transactionType) {
+        this.fromAccNo = fromAccNo;
+        this.toAccNo = toAccNo;
+        this.amount = amount;
+        this.transactionType = transactionType;
+    }
+
+    public String getFromAccNo() {
+        return fromAccNo;
+    }
+
+    public void setFromAccNo(String fromAccNo) {
+        this.fromAccNo = fromAccNo;
+    }
+
+    public String getToAccNo() {
+        return toAccNo;
+    }
+
+    public void setToAccNo(String toAccNo) {
+        this.toAccNo = toAccNo;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 }
