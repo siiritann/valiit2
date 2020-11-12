@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="Siiri" id="changelog-1.0">
+        <createTable tableName="account">
+            <column name="id" type="serial">
+                <constraints nullable="true" primaryKey="true" unique="false"/>
+            </column>
+            <column name="acc_no" type="TEXT">
+            </column>
+            <column name="balance" type="numeric">
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="Siiri">
+        <dropTable tableName="account"></dropTable>
+    </changeSet>
+    <changeSet id="3" author="Siiri">
+
+        <createTable tableName="account">
+            <column name="id" type="int" autoIncrement="true"><constraints primaryKey="true" /></column>
+            <column name = "acc_no" type="TEXT" ></column>
+            <column name = "balance" type="numeric" ></column>
+        </createTable>
+        <createTable tableName="client">
+            <column name = "id" type="int" autoIncrement="true"><constraints primaryKey="true"/> </column>
+            <column name = "firstname" type="TEXT" ></column>
+            <column name = "lastname" type="TEXT" ></column>
+        </createTable>
+
+        <createTable tableName="history">
+            <column name = "id" type="int" autoIncrement="true"><constraints primaryKey="true"/> </column>
+            <column name = "from_account" type="TEXT" ></column>
+            <column name = "to_account" type="TEXT" ></column>
+            <column name = "amount" type="numeric" ></column>
+            <column name = "type" type="TEXT" ></column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="Siiri">
+        <addColumn tableName="account">
+            <column name="client_id" type="int"><constraints nullable = "false"
+                                                             foreignKeyName="fk_account_client"
+                                                             references="client(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="5" author="Siiri">
+        <dropColumn tableName="account" columnName="client_id"></dropColumn>
+        <dropTable tableName="client"></dropTable>
+    </changeSet>
+    <changeSet id="6" author="Siiri">
+        <createTable tableName="client">
+            <column name = "id" type="int" autoIncrement="true"><constraints primaryKey="true"/> </column>
+            <column name = "first_name" type="TEXT" ></column>
+            <column name = "last_name" type="TEXT" ></column>
+        </createTable>
+        <addColumn tableName="account">
+            <column name="client_id" type="int"><constraints nullable = "false"
+                                                             foreignKeyName="fk_account_client"
+                                                             references="client(id)"/>
+            </column>
+        </addColumn>
+        <renameColumn tableName="history" oldColumnName="from_account" newColumnName="from_accno"></renameColumn>
+        <renameColumn tableName="history" oldColumnName="to_account" newColumnName="to_accno"></renameColumn>
+    </changeSet>
+    <changeSet id="7" author="Siiri">
+        <renameTable oldTableName="history" newTableName="balance_history"/>
+    </changeSet>
+    <changeSet id="8" author="Siiri">
+        <createTable tableName="transaction_history">
+            <column name="id" type="int"> <constraints primaryKey="true"/> </column>
+            <column name="from_account_id" type="int"> <constraints nullable = "false"
+                                                                  foreignKeyName="fk_history_from_account"
+                                                                  references="account(id)"/> </column>
+            <column name="to_account_id" type="int"> <constraints nullable = "false"
+                                                                  foreignKeyName="fk_history_to_account"
+                                                                  references="account(id)"/> </column>
+            <column name="amount" type="numeric"> </column>
+            <column name="type" type="TEXT"> </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="9" author="Siiri">
+        <dropTable tableName="transaction_history"></dropTable>
+        <createTable tableName="transaction_history">
+            <column name="id" type="int"> <constraints primaryKey="true"/> </column>
+            <column name="from_account_id" type="int"> <constraints foreignKeyName="fk_history_from_account"
+                                                                    references="account(id)"/> </column>
+            <column name="to_account_id" type="int"> <constraints foreignKeyName="fk_history_to_account"
+                                                                  references="account(id)"/> </column>
+            <column name="amount" type="numeric"> </column>
+            <column name="type" type="TEXT"> </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="10" author="Siiri">
+        <dropTable tableName="transaction_history"></dropTable>
+        <createTable tableName="transaction_history">
+            <column name="id" type="serial"> <constraints primaryKey="true"/> </column>
+            <column name="from_account_id" type="int"> <constraints foreignKeyName="fk_history_from_account"
+                                                                    references="account(id)"/> </column>
+            <column name="to_account_id" type="int"> <constraints foreignKeyName="fk_history_to_account"
+                                                                  references="account(id)"/> </column>
+            <column name="amount" type="numeric"> </column>
+            <column name="type" type="TEXT"> </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="11" author="Siiri">
+        <dropTable tableName="transaction_history"></dropTable>
+        <createTable tableName="transaction_history">
+            <column name="id" type="int" autoIncrement="true"> <constraints primaryKey="true"/> </column>
+            <column name="from_account_id" type="int"> <constraints foreignKeyName="fk_history_from_account"
+                                                                    references="account(id)"/> </column>
+            <column name="to_account_id" type="int"> <constraints foreignKeyName="fk_history_to_account"
+                                                                  references="account(id)"/> </column>
+            <column name="amount" type="numeric"> </column>
+            <column name="type" type="TEXT"> </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
