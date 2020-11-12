@@ -8,8 +8,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class Account {
+    private int id;
     private String accNo;
     private BigDecimal balance;
+    private int clientId;
 
     // default constructor 1
     public Account() {
@@ -27,6 +29,14 @@ public class Account {
         this.balance = balance;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getAccNo() {
         return accNo;
     }
@@ -41,5 +51,13 @@ public class Account {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

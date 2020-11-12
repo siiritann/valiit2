@@ -14,8 +14,10 @@ public class AccountRowMapper implements RowMapper<Account> {
     public Account mapRow(ResultSet resultSet, int i) throws SQLException {
         // kõik väljad mida tahame kasutada
         Account account = new Account(); // kasuta sellist konstruktorit nagu sul endal olemas on
+        account.setId(resultSet.getInt("id"));
         account.setAccNo(resultSet.getString("acc_no"));
         account.setBalance(resultSet.getBigDecimal("balance"));
+        account.setClientId(resultSet.getInt("client_id"));
         return account;
     }
 }

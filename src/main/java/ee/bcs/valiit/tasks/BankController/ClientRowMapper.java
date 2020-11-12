@@ -10,6 +10,7 @@ public class ClientRowMapper implements RowMapper {
     public Client mapRow(ResultSet resultSet, int i) throws SQLException {
         // kõik väljad mida tahame kasutada
         Client client = new Client(); // kasuta sellist konstruktorit nagu sul endal olemas on
+        client.setClientId(resultSet.getInt("id"));
         client.setFirstName(resultSet.getString("first_name"));
         client.setLastName(resultSet.getString("last_name"));
         return client;

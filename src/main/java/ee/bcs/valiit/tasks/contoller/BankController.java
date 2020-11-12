@@ -1,9 +1,6 @@
 package ee.bcs.valiit.tasks.contoller;
 
-import ee.bcs.valiit.tasks.BankController.Account;
-import ee.bcs.valiit.tasks.BankController.AccountRowMapper;
-import ee.bcs.valiit.tasks.BankController.Client;
-import ee.bcs.valiit.tasks.BankController.ClientRowMapper;
+import ee.bcs.valiit.tasks.BankController.*;
 import ee.bcs.valiit.tasks.service.AccountService;
 import ee.bcs.valiit.tasks.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +22,6 @@ public class BankController {
     private ClientService clientService;
 
 
-    // Create new account with balance WITH SQL
-    @PostMapping("account")
-    public void createAccount(@RequestParam("accNo") String acc_no,
-                              @RequestParam("balance") BigInteger balance) {
-            accountService.createAccount(acc_no, balance);
-    }
-
     // Get list of accounts WITH SQL
     @GetMapping("accountslist")
     public Collection<Account> getAccounts() {
@@ -39,41 +29,23 @@ public class BankController {
     }
 
 
-    // Create new account without balance WITH SQL
-    @PutMapping("accountwithoutbalance")
-    public void createAccountWithoutBalance(@RequestParam("accNo") String acc_no) {
-        accountService.createAccountWithoutBalance(acc_no);
-    }
 
-    // Create new account with CLIENT
+    // Create new account with CLIENT with balance
     // URL ex: http://localhost:8080/accountforclient?clientId=0&name=kiizu&address=Pärnu%20mnt%20187
-  /*      @PostMapping("accountforclient")
-        public void createAccountWithClient (@RequestBody String accNo,
-                                            @RequestParam int clientId,
-        String name, String address){ // need on RequestParam !
-            // kõik asjad mille ees annotatsiooni ei ole, on RequestParam-id
-            // kui ma tahan request boydsse panna jsoni siis pean objekti tegema vastavate fieldidega
-            // lihtsam
-//        accountBalance.put(accNo, BigDecimal.ZERO);
-            // raskem
-            // siia võib lisada unikaalsuse kontrolli: kui on siis ei luba teha seda, kui on siis luban teha
+        @PostMapping("accountforclient")
+        public void createAccountWithClient (@RequestParam("accNo") String accNo,
+                                            @RequestParam("amount") BigDecimal amount,
+                                            @RequestParam("clientId") int clientId){
+            accountService.createAccount(accNo, amount, clientId);
+        }
 
-            String sql = "INSERT INTO customer (name, address) " +
-                    "VALUES (:name, :address)";
-//        String sql2 = "INSERT INTO (name, address) VALUES ('" + name + "', :address)"; // see on SQL injection
-            Map<String, String> paramMap = new HashMap<>();
-//        paramMap.put("name", "Siim");
-//        paramMap.put("address", "Tallinn");
-            paramMap.put("name", name);
-            paramMap.put("address", address);
-            jdbcTemplate.update(sql, paramMap);
+     // Create new account with CLIENT WITHOUT balance
 
-            Account account = new Account(accNo);
-            accounts.put(accNo, account);
-//        clientsList.get(clientId).getClientAccounts().add(account); // TODO tekitab errori*/
-//          võib ka tükeldada
-    //        Client c = clientsList.get(clientId);
-//        c.getClientAccounts().add(account);
+    @PutMapping("accountwithoutbalance")
+    public void createAccountWithoutBalance(@RequestParam("accNo") String accNo,
+                                            @RequestParam("clientId") int clientId) {
+        accountService.createAccountWithoutBalance(accNo, clientId);
+    }
 
 
     // depositMoney (accNo, money) WITH SQL
@@ -117,18 +89,17 @@ public class BankController {
     }
 
 
-//    @PostMapping("balancehistory/{accNo}/{amount}")
-//    public String balancehistory(@PathVariable("accNo") String accNo,
-//                                 @PathVariable("amount") BigDecimal amount){
-//        accountService.insertBalanceHistory(accNo, amount);
-//        return "Balancehistory updated";
-//    }
+    @GetMapping("history/{accNo}")
+    public List<BalanceHistory> getHistory(@PathVariable("accNo") String accNo){
+        return accountService.getHistory(accNo);
+    }
 
+// POOLELI
+    @GetMapping("historyofaccount/{accNo}")
+    public List<TransactionHistory> getHistoryOfAccount(@PathVariable("accNo") String accNo){
+        return accountService.getHistoryOfAccount(accNo);
+    }
 
-//    @GetMapping("history/{accNo}")
-//    public void getHistory(@PathVariable("accNo") String accNo){
-//        accountService.getHistory(accNo);
-//    }
 
 
     //    createClient WITH SQL
@@ -144,5 +115,19 @@ public class BankController {
         return clientService.getClientsList();
     }
 
+
+
+    /* DEPRECATED
+
+
+    1 - Create new account with balance WITH SQL  // DEPRECATED
+     siia võib lisada unikaalsuse kontrolli: kui on siis ei luba teha seda, kui on siis luban teha
+
+    @PostMapping("account")
+    public void createAccount(@RequestParam("accNo") String acc_no,
+                              @RequestParam("balance") BigDecimal balance) {
+            accountService.createAccount(acc_no, balance);
+    }
+   * */
 
 }
