@@ -1,7 +1,12 @@
+/*
+       DEPRECATED
+ */
+
 package ee.bcs.valiit.tasks.BankController;
 
 import java.math.BigDecimal;
 
+@Deprecated
 public class BalanceHistory {
     private int id;
     private String fromAccNo;
@@ -22,7 +27,6 @@ public class BalanceHistory {
 
     public BalanceHistory(String fromAccNo, BigDecimal amount, String transactionType) {
         this.fromAccNo = fromAccNo;
-        this.toAccNo = toAccNo;
         this.amount = amount;
         this.transactionType = transactionType;
     }
