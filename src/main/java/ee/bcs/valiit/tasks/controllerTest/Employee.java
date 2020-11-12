@@ -1,4 +1,4 @@
-package ee.bcs.valiit.tasks.controller;
+package ee.bcs.valiit.tasks.controllerTest;
 
 public class Employee {
     private String firstName;
