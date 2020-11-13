@@ -2,7 +2,9 @@ package ee.bcs.valiit.tasks.repository;
 
 
 import ee.bcs.valiit.tasks.BankController.*;
+import ee.bcs.valiit.tasks.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +51,7 @@ public class AccountRepository {
     }
 
 
+    // Get balance for one account
     public BigDecimal getBalance(String accNo){
         String sql = "SELECT balance FROM account WHERE acc_no = :accNo";
         Map<String, Object> paramMap = new HashMap<>();
@@ -57,6 +60,25 @@ public class AccountRepository {
         return balance;
     }
 
+
+    // GET BALANCE WITH ACCOUNT EXISTANCE CHK // DEPRECATED
+  /*  public BigDecimal getBalance(String accNo){
+        String sql = "SELECT balance FROM account WHERE acc_no = :accNo";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("accNo", accNo);
+        BigDecimal balance;
+
+        try {
+            balance = jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class); // see rida annab mulle vastuse andmebaasist
+        } catch (EmptyResultDataAccessException e) {
+            throw new ApplicationException("Sellist konto numbrit ei ole olemas", e);
+        }
+
+        return balance;
+    }*/
+
+
+
     public int getAccountId(String accNo){
         String sql = "SELECT id FROM account WHERE acc_no = :accNo";
         Map<String, Object> paramMap = new HashMap<>();
@@ -64,6 +86,18 @@ public class AccountRepository {
         int id = jdbcTemplate.queryForObject(sql, paramMap, Integer.class); // see rida annab mulle vastuse andmebaasist
         return id;
     }
+
+
+    // CHECK IF ACCOUNT EXISTS
+    public boolean ifAccDoesExist(String accNo){
+        String sql = "SELECT COUNT(*) FROM account WHERE acc_no = :accNo";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("accNo", accNo);
+        Integer count = jdbcTemplate.queryForObject(sql, paramMap, Integer.class); // see rida annab mulle vastuse andmebaasist
+        return count != 0;
+    }
+
+
     public void updateBalance(String accNo, BigDecimal newValue){
         String sql = "UPDATE account SET balance = :balance WHERE acc_no = :accNo";
         Map<String, Object> paramMap = new HashMap<>();
@@ -102,7 +136,6 @@ public class AccountRepository {
     }
 
 
-    // POOLELI
     // get balance history, peaks olema sarnane nagu getMultipleBalances
     public List<TransactionHistory> getHistoryOfAccount(int idOfAccount){
         String sql = "SELECT * FROM transaction_history WHERE from_account_id = :idOfAccount";

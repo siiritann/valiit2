@@ -56,7 +56,7 @@ public class BankController {
     }
 
 
-    // withdrawMoney (accountNr, money) WITH SQL
+    // withdrawMoney (accountNr, money) WITH SQL // TODO POOLELI
     @PatchMapping("withdrawMoney")
     public String withdrawMoney(@RequestParam("accNo") String accNo,
                                 @RequestParam("money") BigDecimal money) {
@@ -94,7 +94,6 @@ public class BankController {
         return accountService.getHistory(accNo);
     }
 
-// POOLELI
     @GetMapping("historyofaccount/{accNo}")
     public List<TransactionHistory> getHistoryOfAccount(@PathVariable("accNo") String accNo){
         return accountService.getHistoryOfAccount(accNo);
@@ -115,6 +114,12 @@ public class BankController {
         return clientService.getClientsList();
     }
 
+
+    // delete a client - // TODO POOLELI update account table ja FK juurde ON DELETE CASCADE aga tuleb olla ettevaatlik
+    @DeleteMapping("client/{id}")
+    public List deleteClient(@PathVariable("id") int id){
+        return clientService.getClientsList();
+    }
 
 
     /* DEPRECATED

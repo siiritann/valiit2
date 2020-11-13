@@ -1,15 +1,23 @@
+/* TODO - withdraw ja transfer - lisa account exists control
+
+ *
+ * */
+
+
 package ee.bcs.valiit.tasks.service;
 
 import ee.bcs.valiit.tasks.BankController.Account;
 import ee.bcs.valiit.tasks.BankController.BalanceHistory;
 import ee.bcs.valiit.tasks.BankController.TransactionHistory;
+import ee.bcs.valiit.tasks.exception.ApplicationException;
 import ee.bcs.valiit.tasks.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -18,13 +26,20 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate; // TÖÖTAB
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     // Create new account with balance WITH SQL
-    public void createAccount(String accNo, BigDecimal balance, int clientId){
+    public void createAccount(String accNo, BigDecimal balance, int clientId) {
+
+        // check if this accNo already exists in DB
+        if (accountRepository.ifAccDoesExist(accNo)) {
+            throw new ApplicationException("This account already exists");
+        }
+
+        // Create new account
         accountRepository.createAccount(accNo, balance, clientId);
         int idOfAccount = accountRepository.getAccountId(accNo);
-        accountRepository.putTransactionHistory(null, idOfAccount, balance.abs(),"openAccountDeposit");
+        accountRepository.putTransactionHistory(null, idOfAccount, balance.abs(), "openAccountDeposit");
     }
 
     // Get list of accounts WITH SQL
@@ -37,14 +52,22 @@ public class AccountService {
         accountRepository.createAccountWithoutBalance(acc_no, clientId);
     }
 
-    // depositMoney (accNo, money) WITH SQL - POOLELI
+    // depositMoney (accNo, money) WITH SQL
     public String depositMoney(String accNo, BigDecimal money) {
+
+        // check if this accNo exists in DB
+        if (!accountRepository.ifAccDoesExist(accNo)) {
+            throw new ApplicationException("Account doesn't exist", 418);
+        }
+
+        // if account exists then add to balance
         BigDecimal accountBalanceOldValue = accountRepository.getBalance(accNo);
         BigDecimal newValue = accountBalanceOldValue.add(money.abs());
         accountRepository.updateBalance(accNo, newValue);
 
-//        accountRepository.updateBalanceHistory( "", accNo, money.abs(),"deposit");
+//        accountRepository.updateBalanceHistory( "", accNo, money.abs(),"deposit"); // DEPRECATED
 
+        // update transaction History
         int idOfAccount = accountRepository.getAccountId(accNo);
         accountRepository.putTransactionHistory(null, idOfAccount, money.abs(),"deposit");
 
@@ -66,7 +89,9 @@ public class AccountService {
 
             return "previous amount was " + accountBalanceOldValue + ", new amount is " + newValue;
         } else {
-            return "Not enough money";
+            throw new ApplicationException("Not enough money", 400);
+//            return "Not enough money"; // DEPRECATED
+
         }
     }
 
@@ -126,7 +151,6 @@ public class AccountService {
         return accountRepository.getHistory(accNo);
     }
 
-    // POOLELI
     public List<TransactionHistory> getHistoryOfAccount(String accNo) {
         int idOfAccount = accountRepository.getAccountId(accNo);
         return accountRepository.getHistoryOfAccount(idOfAccount);
