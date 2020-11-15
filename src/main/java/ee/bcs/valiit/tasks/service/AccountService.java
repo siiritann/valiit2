@@ -14,6 +14,7 @@ import ee.bcs.valiit.tasks.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -63,9 +64,9 @@ public class AccountService {
         // if account exists then add to balance
         BigDecimal accountBalanceOldValue = accountRepository.getBalance(accNo);
         BigDecimal newValue = accountBalanceOldValue.add(money.abs());
+//        accountRepository.updateBalanceHistory( "", accNo, money.abs(),"deposit"); // DEPRECATED
         accountRepository.updateBalance(accNo, newValue);
 
-//        accountRepository.updateBalanceHistory( "", accNo, money.abs(),"deposit"); // DEPRECATED
 
         // update transaction History
         int idOfAccount = accountRepository.getAccountId(accNo);
@@ -154,5 +155,13 @@ public class AccountService {
     public List<TransactionHistory> getHistoryOfAccount(String accNo) {
         int idOfAccount = accountRepository.getAccountId(accNo);
         return accountRepository.getHistoryOfAccount(idOfAccount);
+    }
+
+
+    // get balances for all accounts
+    @GetMapping("balances")
+    public List<Object> getBalances(){
+        return accountRepository.getBalancesForAccounts();
+
     }
 }

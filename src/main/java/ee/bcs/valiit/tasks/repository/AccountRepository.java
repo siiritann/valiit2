@@ -60,25 +60,6 @@ public class AccountRepository {
         return balance;
     }
 
-
-    // GET BALANCE WITH ACCOUNT EXISTANCE CHK // DEPRECATED
-  /*  public BigDecimal getBalance(String accNo){
-        String sql = "SELECT balance FROM account WHERE acc_no = :accNo";
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("accNo", accNo);
-        BigDecimal balance;
-
-        try {
-            balance = jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class); // see rida annab mulle vastuse andmebaasist
-        } catch (EmptyResultDataAccessException e) {
-            throw new ApplicationException("Sellist konto numbrit ei ole olemas", e);
-        }
-
-        return balance;
-    }*/
-
-
-
     public int getAccountId(String accNo){
         String sql = "SELECT id FROM account WHERE acc_no = :accNo";
         Map<String, Object> paramMap = new HashMap<>();
@@ -106,13 +87,7 @@ public class AccountRepository {
         jdbcTemplate.update(sql, paramMap);
     }
 
-    public List<Account> getMultipleBalances(String accNo) {
-        String sql = "SELECT * FROM account WHERE acc_no = :accNo";
-        Map<String, Object> paramMap = new HashMap();
-        paramMap.put("accNo", accNo);
-        List<Account> resultList = jdbcTemplate.query(sql, paramMap, new AccountRowMapper());
-        return resultList;
-    }
+
 
     public void updateBalanceHistory(String fromAccNo, String toAccNo, BigDecimal amount, String type){
        String sql = "INSERT INTO balance_history (from_accno, to_accno, amount, type) VALUES (:fromAccNo, :toAccNo, :amount, :type)";
@@ -145,6 +120,14 @@ public class AccountRepository {
         return resultList;
     }
 
+    // GET balance for all accounts
+    public List<Object> getBalancesForAccounts(){
+        String sql = "SELECT balance FROM account";
+        Map<String, Object> paramMap = new HashMap<>();
+        List resultList = jdbcTemplate.queryForList(sql, paramMap, BigDecimal.class);
+        return resultList;
+    }
+
 
 
     /* DEPRECATED
@@ -157,5 +140,30 @@ public class AccountRepository {
         List<BalanceHistory> resultList = jdbcTemplate.query(sql, paramMap, new HistoryRowMapper());
         return resultList;
     }
+
+    // DEPRECATED BECAUSE WE NOW HAVE UNIQUE accNo's
+    public List<Account> getMultipleBalances(String accNo) {
+        String sql = "SELECT * FROM account WHERE acc_no = :accNo";
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("accNo", accNo);
+        List<Account> resultList = jdbcTemplate.query(sql, paramMap, new AccountRowMapper());
+        return resultList;
+    }
+
+    // GET BALANCE WITH ACCOUNT EXISTANCE CHK // DEPRECATED
+  /*  public BigDecimal getBalance(String accNo){
+        String sql = "SELECT balance FROM account WHERE acc_no = :accNo";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("accNo", accNo);
+        BigDecimal balance;
+
+        try {
+            balance = jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class); // see rida annab mulle vastuse andmebaasist
+        } catch (EmptyResultDataAccessException e) {
+            throw new ApplicationException("Sellist konto numbrit ei ole olemas", e);
+        }
+
+        return balance;
+    }*/
 
 }

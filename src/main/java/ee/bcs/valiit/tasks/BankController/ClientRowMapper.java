@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ClientRowMapper implements RowMapper {
-    @Override
+    @Override // TODO mis see siin teeb?
     public Client mapRow(ResultSet resultSet, int i) throws SQLException {
         // kõik väljad mida tahame kasutada
         Client client = new Client(); // kasuta sellist konstruktorit nagu sul endal olemas on

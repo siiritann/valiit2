@@ -16,7 +16,7 @@ public class BankController {
 
     @Autowired // sellega loon db connectioni ja võtab info application.properites failist
 //    private NamedParameterJdbcTemplate jdbcTemplate; // vana meetod enne kihtide eraldamist
-    private AccountService accountService; // pärast kihtide splittimist
+    private AccountService accountService; // pärast kihtide splittimist // TODO miks siin ees private on?
 
     @Autowired
     private ClientService clientService;
@@ -97,6 +97,12 @@ public class BankController {
     @GetMapping("historyofaccount/{accNo}")
     public List<TransactionHistory> getHistoryOfAccount(@PathVariable("accNo") String accNo){
         return accountService.getHistoryOfAccount(accNo);
+    }
+
+    // get balances for all accounts
+    @GetMapping("balances")
+    public List<Object> getBalances(){
+        return accountService.getBalances();
     }
 
 
