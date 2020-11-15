@@ -118,4 +118,17 @@
             <column name="type" type="TEXT"> </column>
         </createTable>
     </changeSet>
+    <changeSet id="12" author="Siiri">
+        <createTable tableName="game">
+            <column name="id" type="int" autoIncrement="true"> <constraints primaryKey="true"/> </column>
+            <column name="guess" type="int" >  </column>
+            <column name="count" type="int" >  </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="13" author="siiri">
+        <renameColumn tableName="game" oldColumnName="guess" newColumnName="answer"/>
+    </changeSet>
+    <changeSet id="14" author="siiri">
+        <renameColumn tableName="game" oldColumnName="answer" newColumnName="random_number"/>
+    </changeSet>
 </databaseChangeLog>
