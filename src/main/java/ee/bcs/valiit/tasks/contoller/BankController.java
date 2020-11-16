@@ -1,6 +1,7 @@
 package ee.bcs.valiit.tasks.contoller;
 
 import ee.bcs.valiit.tasks.BankController.*;
+import ee.bcs.valiit.tasks.repository.AccountRepository;
 import ee.bcs.valiit.tasks.service.AccountService;
 import ee.bcs.valiit.tasks.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,15 @@ import java.util.*;
 @RestController
 public class BankController {
 
-    @Autowired // sellega loon db connectioni ja võtab info application.properites failist
+//    @Autowired // DEPRECATED SEST LÕIME CONSTRUCTORI JUURDE // sellega loon db connectioni ja võtab info application.properites failist
 //    private NamedParameterJdbcTemplate jdbcTemplate; // vana meetod enne kihtide eraldamist
     private AccountService accountService; // pärast kihtide splittimist // TODO miks siin ees private on?
+    private AccountRepository accountRepository;
+
+    public BankController(AccountService accountService, AccountRepository accountRepository) {
+        this.accountService = accountService;
+        this.accountRepository = accountRepository;
+    }
 
     @Autowired
     private ClientService clientService;

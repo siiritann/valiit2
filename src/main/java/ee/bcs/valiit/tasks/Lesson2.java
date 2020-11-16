@@ -13,16 +13,17 @@ public class Lesson2 {
 
     public static void main(String[] args) {
 //        exercise1();
-//        exercise2(4);
+//        exercise2(5);
+        exercise2Arr(5);
 //        exercise3(4,5);
 //        exercise3(3,3);
 //        test();
-        fibonacci(3);
-        fibonacci(4);
-        fibonacci(5);
-        fibonacci(6);
-        fibonacci(7);
-        fibonacci(8);
+//        fibonacci(3);
+//        fibonacci(4);
+//        fibonacci(5);
+//        fibonacci(6);
+//        fibonacci(7);
+//        fibonacci(8);
 /*      exercise5(1, 10);
         exercise5(100, 200);
         exercise5(201, 210);
@@ -80,6 +81,20 @@ public class Lesson2 {
                 System.out.println(i);
             }
         }
+    }
+
+    public static int[] exercise2Arr(int x) {
+        // TODO prindi välja x esimest paaris arvu
+        // Näide:
+        // Sisend 5
+        // Väljund 2 4 6 8 10
+
+        int[] arr = new int[x];
+        for (int i = 1; i <= x; i++) {
+            arr[i-1] = i*2;
+        }
+
+        return arr;
     }
 
     public static void exercise3(int x, int y) {
