@@ -10,7 +10,6 @@ public class Lesson1 {
     }
 
     public static void excersie1(){
-        // TODO
         // defineeri 3 muutujat a = 1, b = 1, c = 3
         // Prindi välja a==b ja a==c
         // Lisa rida a = c
@@ -26,7 +25,6 @@ public class Lesson1 {
     }
 
     public static void excersie2(){
-        // TODO
         // Loo muutujad x1 = 10 ja x2 = 20, vali sobiv andmetüüp
         // Tekita muutuja y1 = ++x1, trüki välja nii x1 kui y1
         // Tekita muutuja y2 = x2++, trüki välja nii x2 ja y2
@@ -43,7 +41,6 @@ public class Lesson1 {
     }
 
     public static void excersie3(){
-        // TODO
         // Loo arvulised muutujad
         int a = 18 % 3;
         int b = 19 % 3;
@@ -58,7 +55,6 @@ public class Lesson1 {
     }
 
     public static void excersie4(){
-        // TODO
         // Defineeri String tüüpi muutuja mille sisu oleks "\"\\""
         // Trüki muutuja sisu välja
 

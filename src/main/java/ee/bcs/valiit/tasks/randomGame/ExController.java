@@ -84,12 +84,6 @@ public class ExController {
         }
     }
 
-    //  TODO SIIA TAHAKS RANDOM GAME LOOPI  EHITADA
-/*    @PostMapping("randomgame")
-    public int randomGame(@RequestParam("nr") int guess) {
-        return guess;
-    }*/
-
     @GetMapping("morse")
     public String morse(@RequestParam("text") String text){
         return morseCode(text);

@@ -76,7 +76,7 @@ public class TestController {
 //        return resultList;
 //    }
 
-    // TODO TESTÜLESANNE: localhost:8080/users/5/contracts/8?filterBy=status
+    //  TESTÜLESANNE: localhost:8080/users/5/contracts/8?filterBy=status
     // siit vaja kätte saada 5, 8, ja "status"
 
     @GetMapping("/users/{userId}/contracts/{nr}")

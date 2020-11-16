@@ -24,14 +24,14 @@ public class BankControllerJava {
     // raskem
 //    List<Account> accountsList = new ArrayList<>();
 
-    // TODO
+    // Taskid osa 1
     // createAccount (accountNr) // ei valideeri
     // depositMoney (accountNr, money) // sellele kontole lisa raha
     // withdrawMoney (accountNr, money) // sellelt kontolt raha maha, validatsioonid
     // transferMoney (fromAccount, toAccount, money) // validatsioonid
     // getAccountBalance (accNr) // kui palju raha mul on sellel kontol
 
-    // TODO 2
+    // Taskid osa  2
     // createClient(filterName, lastName, ...) //
     // muuda createAccount (accountNr, clientId) // ühel kliendil saab olla mitu kontot
     // getBalanceHistory(accountNr) // kõik tehingud selle kontoga
@@ -69,7 +69,7 @@ public class BankControllerJava {
 
         Account account = new Account(accNo);
         accounts.put(accNo, account);
-//        clientsList.get(clientId).getClientAccounts().add(account); // TODO tekitab errori
+//        clientsList.get(clientId).getClientAccounts().add(account); // tekitab errori
 //          võib ka tükeldada
         //        Client c = clientsList.get(clientId);
 //        c.getClientAccounts().add(account);
@@ -129,7 +129,7 @@ public class BankControllerJava {
             return  String.format("Kontol fromAccount %s pole piisavalt vahendeid", accNo1);
         }
 
-//        TODO Kas iga kord selle uuesti tegemise asemel saan juba getAccountBalance'it välja kutsuda?
+//        Kas iga kord selle uuesti tegemise asemel saan juba getAccountBalance'it välja kutsuda? - jah
 
     }
 
