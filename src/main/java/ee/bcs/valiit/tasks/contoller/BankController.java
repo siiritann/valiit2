@@ -114,12 +114,19 @@ public class BankController {
 
 
 
-    //    createClient WITH SQL
-    @PutMapping("clients")
+    //    createClient WITH SQL WITH QUERY PARAMS
+    @PostMapping("clients")
     public void createClient(@RequestParam("firstName") String firstName,
                              @RequestParam("lastName") String lastName) {
         clientService.createClient(firstName, lastName);
     }
+
+    //    createClient WITH REQUEST BODY - POOLELI
+//    @PostMapping("newclient")
+//    public void createClient(@RequestBody Client client) {
+//        clientService.createClientWithRequestBody(client);
+//    }
+
 
     // get list of clients
     @GetMapping("clients")

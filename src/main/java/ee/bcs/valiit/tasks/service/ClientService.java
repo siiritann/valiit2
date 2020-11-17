@@ -28,6 +28,19 @@ public class ClientService {
         paramMap.put("muutuja2", lastName);
         jdbcTemplate.update(sql, paramMap);
     }
+
+
+    //    createClient WITH REQUEST BODY - POOLELI
+//    public void createClientWithRequestBody() {
+//        String sql = "INSERT INTO client (first_name, last_name) " +
+//                "VALUES (:muutuja1, :muutuja2)";
+//        Map<String, String> paramMap = new HashMap<>();
+//        paramMap.put("muutuja1", firstName);
+//        paramMap.put("muutuja2", lastName);
+//        jdbcTemplate.update(sql, paramMap);
+//    }
+
+
     // get list of clients
     public List getClientsList() {
         String sql = "SELECT * FROM client";
