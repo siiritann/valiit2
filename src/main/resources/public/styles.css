@@ -1,0 +1,35 @@
+h1 {
+    font-family: Georgia;
+    text-align: center;
+    color: blueviolet;
+}
+
+h2 {
+    font-family: Georgia;
+    text-align: center;
+}
+
+p {
+    color: gray();
+    text-align: center;
+}
+
+body {
+    background-color: powderblue;
+    text-align: center;
+
+}
+
+form {
+    text-align: center;
+}
+
+.image {
+    text-align: center;
+
+}
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
