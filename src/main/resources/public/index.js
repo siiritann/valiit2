@@ -1,8 +1,21 @@
+/* OTI LAHENDUS
+*
+* */
+
 console.log("Seotud");
 
 let postButton = document.getElementById("createClient");
 let firstName = document.getElementById("firstName");
 let lastName = document.getElementById("lastName");
+let checkbox = document.getElementById("checkbox");
+
+
+// POOLELI
+/*postButton.onclick = function (){
+    if (checkbox == true) {
+
+    }
+}*/
 
 postButton.addEventListener("click", function () {
     console.log("click");
@@ -27,6 +40,5 @@ function createClient(client) {
             body: JSON.stringify(client)
         }
     );
-
 }
 
