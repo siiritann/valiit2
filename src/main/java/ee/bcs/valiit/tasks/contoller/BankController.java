@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
+@CrossOrigin
 @RestController
 public class BankController {
 
@@ -30,6 +31,7 @@ public class BankController {
 
 
     // Get list of accounts WITH SQL
+    @CrossOrigin // TODO mis see? seda vaja selleks, et brauseris otse konsoolist fetchida
     @GetMapping("accountslist")
     public Collection<Account> getAccounts() {
         return accountService.getAccounts();
@@ -107,6 +109,7 @@ public class BankController {
     }
 
     // get balances for all accounts
+    @CrossOrigin
     @GetMapping("balances")
     public List<Object> getBalances(){
         return accountService.getBalances();
@@ -121,11 +124,11 @@ public class BankController {
         clientService.createClient(firstName, lastName);
     }
 
-    //    createClient WITH REQUEST BODY - POOLELI
-//    @PostMapping("newclient")
-//    public void createClient(@RequestBody Client client) {
-//        clientService.createClientWithRequestBody(client);
-//    }
+    //    createClient WITH REQUEST BODY
+    @PostMapping("newclient")
+    public void createClient(@RequestBody Client client) {
+        clientService.createClientWithRequestBody(client);
+    }
 
 
     // get list of clients
