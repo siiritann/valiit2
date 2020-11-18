@@ -10,14 +10,20 @@ h2 {
 }
 
 p {
-    color: gray();
+    color: dimgray;
     text-align: center;
+    /*padding: 25px;*/
+    /*margin-left: 35px;*/
+    /*margin-right: 35px;*/
 }
 
-body {
-    background-color: powderblue;
+.content {
+    background: floralwhite;
     text-align: center;
-
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 55px;
+    margin-bottom: 60px;
 }
 
 form {
@@ -26,10 +32,12 @@ form {
 
 .image {
     text-align: center;
+    background: blueviolet;
+}
 
-}
-.center {
-    margin-left: auto;
+.center{
     margin-right: auto;
+    margin-left: auto;
 }
+
 
