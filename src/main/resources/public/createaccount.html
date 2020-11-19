@@ -6,7 +6,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-CuOF+2SnTUfTwSZjCXf01h7uYhfOBuxIhGKPbfEJ3+FqH/s6cIFN9bGr1HmAg4fQ" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
 <div class="image text-center pt-5">
@@ -14,18 +13,17 @@
 </div>
 <div class="content">
     <h1>THE MOST RELIABLE BANK YOU'LL EVER FIND</h1>
-
     <form>
         <p><strong> Register yourself here </strong></p>
 
         <!--<form action="http://localhost:8080/clients?firstName={firstName}&lastName={lastName}" method="post"> EI TÖÖTA -->
-        <!--<form action="welcomepage.html" method="get">-->
+        <!--<form action="welcomepagenewclient.html" method="get">-->
         <!--    <label for="firstName"> First name:</label>-->
         <!--    <input type="text" id="firstName" name = "firstName" placeholder="insert first name"><br><br>-->
         <!--    <label for="lastName"> Last name:</label>-->
         <!--     <input type="text" id="lastName" name = "lastName"><br><br>-->
         <!--    <input type="submit" class="btn btn-success" value="CREATE ACCOUNT">-->
-        <!--&lt;!&ndash;    <button type="button" class="btn btn-success" onclick = "welcomepage.html;">CREATE ACCOUNT</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;    <button type="button" class="btn btn-success" onclick = "welcomepagenewclient.html;">CREATE ACCOUNT</button>&ndash;&gt;-->
         <!--    <button type="reset" class="btn btn-info" id="my"> Reset form</button>-->
         <!--&lt;!&ndash;    <script>&ndash;&gt;-->
         <!--&lt;!&ndash;       let my = document.getElementById("my");&ndash;&gt;-->
@@ -43,24 +41,28 @@
         <a href='tos.html' target="_blank">Nõustun tingimustega</a>
         <input type="checkbox" name="checkbox" id="checkbox2"><br><br>
 
-        <!--WITHOUT REDIRECT-->
-        <!--<input type="button" id="createClient" class="btn btn-success" value="CREATE ACCOUNT" ><br><br>-->
-
-        <!--REDIRECT PAGE -->
         <input type="button" id="createClient" class="btn btn-success" value="CREATE ACCOUNT"><br><br>
         <p id="error"></p>
     </form>
+
+    <h3>Already have account?</h3>
+    <label for="username">Log in here</label>
+    <input type="number" min="1" id="username" placeholder="insert your clientId" t><br><br>
+    <input type="button" id="login" class="btn btn-info" value="LOGIN"><br><br>
+    <p id="errorlogin"></p>
 </div>
 
 
 <!-- CREATE NEW CLIENT ONCLICK CREATE ACCOUNT BUTTON-->
 <script>
+
+    // 1 - CREATE NEW CLIENT
     let postButton = document.getElementById("createClient");
     let firstName = document.getElementById("firstName");
     let lastName = document.getElementById("lastName");
 
     postButton.addEventListener("click", function () {
-        if (firstName.value.length <= 0 || lastName.value.length <= 0){
+        if (firstName.value.length <= 0 || lastName.value.length <= 0) {
             console.log("1");
             let error = "Please insert firstname and lastname";
             let p = document.getElementById("error");
@@ -86,11 +88,32 @@
                 body: JSON.stringify(client)
             }
         ).then(
-            function (result){
-                location.href='welcomepage.html';
+            function (result) {
+                location.href = 'welcomepagenewclient.html';
             }
         );
     }
+
+    // 2 - LOGIN
+    let loginButton = document.getElementById("login");
+    let userName = document.getElementById("username");
+
+    loginButton.addEventListener("click", function () {
+        if (userName.value < 1) {
+            let errorlogin = "Please insert valid username/clientId";
+            let p = document.getElementById("errorlogin");
+            p.append(errorlogin);
+        } else {
+            let clientId = document.getElementById("username").value;
+            login(clientId);
+        }
+    });
+
+    function login(clientId) {
+        console.log(clientId);
+        location.href = 'welcomepageforclient.html?id=' + clientId;
+    }
+
 </script>
 <!--<script src="index.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"
