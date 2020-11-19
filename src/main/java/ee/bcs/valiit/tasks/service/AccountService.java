@@ -141,6 +141,11 @@ public class AccountService {
         return accountRepository.getBalance(accNo);
     }
 
+    // GET ACCOUNTS FOR THIS CLIENT
+    public Collection<Account> getAccountsForThisClient(int clientId){
+        return accountRepository.getAccountsForThisClient(clientId);
+    }
+
     // example for multiple rows WITH SQL
     // kutsutakse iga rea kohta välja
     // returnib mulle muutuja, mis on list nendest samadest objektidest mida row mapperis defineerisime

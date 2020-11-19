@@ -88,6 +88,11 @@ public class BankController {
         return accountService.getAccountBalance(accNo);
     }
 
+    // GET ACCOUNTS FOR THIS CLIENT
+    @GetMapping("accountsforclient/{clientId}")
+    public Collection<Account> getAccountsForThisClient(@PathVariable("clientId") int clientId){
+        return accountService.getAccountsForThisClient(clientId);
+    }
 
     // example for multiple rows WITH SQL
     // kutsutakse iga rea kohta välja
@@ -124,7 +129,7 @@ public class BankController {
         clientService.createClient(firstName, lastName);
     }
 
-    //    createClient WITH REQUEST BODY
+    //    createClient WITH REQUEST BODY // TODO POOLELI - lisa firstname lastname kontroll et ei oleks duplikaate
     @PostMapping("newclient")
     public void createClient(@RequestBody Client client) {
         clientService.createClientWithRequestBody(client);
@@ -138,7 +143,7 @@ public class BankController {
     }
 
 
-    // delete a client - // TODO POOLELI update account table ja FK juurde ON DELETE CASCADE aga tuleb olla ettevaatlik
+    // delete a client - // TODO POOLELI
     @DeleteMapping("client/{id}")
     public List deleteClient(@PathVariable("id") int id){
         return clientService.getClientsList();

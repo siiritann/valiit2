@@ -60,6 +60,17 @@ public class AccountRepository {
         return balance;
     }
 
+    // GET ACCOUNTS FOR THIS CLIENT
+    public Collection<Account> getAccountsForThisClient(int clientId){
+        String sql = "SELECT * FROM account where client_id = :clientId";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("clientId", clientId);
+        List<Account> resultList = jdbcTemplate.query(sql, paramMap, new AccountRowMapper());
+        return resultList;
+    }
+
+
+
     public int getAccountId(String accNo){
         String sql = "SELECT id FROM account WHERE acc_no = :accNo";
         Map<String, Object> paramMap = new HashMap<>();
