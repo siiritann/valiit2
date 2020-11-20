@@ -1,8 +1,11 @@
 package ee.bcs.valiit.tasks.controllerTest;
 
 import ee.bcs.valiit.tasks.Visit;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +32,20 @@ public class TestController {
     @GetMapping("hello")
     public String getMidagiMuud() {
         return "Midagi muud";
-    }
+    };
 
-    ;
 
     @GetMapping("?*ri")
-    public String getSiiri() {
+    public String getSiiri(Principal principal) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.
+                getContext().
+                getAuthentication().
+                getPrincipal();
+        System.out.println(principal.getName());
         return "Siiri";
-    }
+    };
 
-    ;
+
 //    // URL = http://localhost:8080/employee/midagi?employeeId=5
 //    @GetMapping("/employee/{midagi}")
 //    public String pathParTest(@PathVariable("midagi") String mingiTekst,
@@ -97,12 +104,16 @@ public class TestController {
     //    /?employeeId=8&somethingElse=tere
 
 //    @GetMapping("/?employeeId={employeeId}&somethingElse=tere") >> see ei tohi olla sama mis getmappingu URL sest mul viib see avalehele ikkagi
-    @GetMapping("/")
-    public String test(@RequestParam("employeeId") int employeeId,
-                       @RequestParam("somethingElse") String str) {
-        return "YAY";
-    }
+//    @GetMapping("/")
+//    public String test(@RequestParam("employeeId") int employeeId,
+//                       @RequestParam("somethingElse") String str) {
+//        return "YAY";
+//    }
 
+//    @GetMapping("/")
+//    public String test(){
+//        return "YAY";
+//    }
 
 
 //    Ül: kirjuta mapping sellele urlile:  /company/6?company=5&a=a&b=b
