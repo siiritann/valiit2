@@ -2,15 +2,14 @@ package ee.bcs.valiit.tasks.repository;
 
 
 import ee.bcs.valiit.tasks.BankController.*;
-import ee.bcs.valiit.tasks.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -22,15 +21,31 @@ public class AccountRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
+
+    // TODO POOLELI
+    // Create new account with balance WITH SQL THAT RETURNS id KEY
+    public Integer createAccount(String acc_no, BigDecimal balance, int clientId){
+        String sql = "INSERT INTO account (acc_no, balance, client_id) VALUES (:accNo, :balance, :clientId)";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("accNo", acc_no);
+        paramMap.put("balance", balance);
+        paramMap.put("clientId", clientId);
+
+        // tagastab äsja loodud konto data, ise ütlen välja nt iD millelel genereeriti autom.väärtus
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(sql, new MapSqlParameterSource(paramMap), keyHolder);
+        return (Integer) keyHolder.getKeys().get("id");
+    }
+
     // Create new account with balance WITH SQL
-    public void createAccount(String acc_no, BigDecimal balance, int clientId){
+  /*  public Integer createAccount(String acc_no, BigDecimal balance, int clientId){
         String sql = "INSERT INTO account (acc_no, balance, client_id) VALUES (:accNo, :balance, :clientId)";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("accNo", acc_no);
         paramMap.put("balance", balance);
         paramMap.put("clientId", clientId);
         jdbcTemplate.update(sql, paramMap);
-    }
+    }*/
 
     // Get list of accounts WITH SQL
     public Collection<Account> getAccounts() {

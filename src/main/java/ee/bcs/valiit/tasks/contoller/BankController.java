@@ -5,11 +5,9 @@ import ee.bcs.valiit.tasks.repository.AccountRepository;
 import ee.bcs.valiit.tasks.service.AccountService;
 import ee.bcs.valiit.tasks.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.*;
 
 @CrossOrigin
@@ -31,7 +29,7 @@ public class BankController {
 
 
     // Get list of accounts WITH SQL
-    @CrossOrigin // TODO mis see? seda vaja selleks, et brauseris otse konsoolist fetchida
+    @CrossOrigin // seda vaja selleks, et brauseris otse konsoolist fetchida
     @GetMapping("accountslist")
     public Collection<Account> getAccounts() {
         return accountService.getAccounts();
@@ -42,10 +40,10 @@ public class BankController {
     // Create new account with CLIENT with balance
     // URL ex: http://localhost:8080/accountforclient?clientId=0&name=kiizu&address=Pärnu%20mnt%20187
         @PostMapping("accountforclient")
-        public void createAccountWithClient (@RequestParam("accNo") String accNo,
+        public Integer createAccountWithClient (@RequestParam("accNo") String accNo,
                                             @RequestParam("amount") BigDecimal amount,
                                             @RequestParam("clientId") int clientId){
-            accountService.createAccount(accNo, amount, clientId);
+            return accountService.createAccount(accNo, amount, clientId);
         }
 
      // Create new account with CLIENT WITHOUT balance
@@ -58,6 +56,8 @@ public class BankController {
 
 
     // depositMoney (accNo, money) WITH SQL
+//    http://localhost:8080/depositMoney?accNo=EE05&money=800
+    @CrossOrigin
     @PutMapping("depositMoney")
     public String depositMoney(@RequestParam("accNo") String accNo,
                                @RequestParam("money") BigDecimal money) {
@@ -126,7 +126,7 @@ public class BankController {
     @PostMapping("clients")
     public void createClient(@RequestParam("firstName") String firstName,
                              @RequestParam("lastName") String lastName) {
-        clientService.createClient(firstName, lastName);
+        clientService.createClientWithQueryParams(firstName, lastName);
     }
 
     //    createClient WITH REQUEST BODY // TODO POOLELI - lisa firstname lastname kontroll et ei oleks duplikaate

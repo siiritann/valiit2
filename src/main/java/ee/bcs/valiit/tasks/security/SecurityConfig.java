@@ -16,6 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{ // autoriseeri päringuid üle http
         http.authorizeRequests()
                 .antMatchers("/","/home", "/pic.jpg", "/img/**").permitAll() // juhul kui päring tehakse /home pihta luba sinna kõik ligi
+                .antMatchers("/**").permitAll() // FOR TESTING PURPOSES: luba loginita access igale poole
                 .anyRequest().authenticated() // kõik muud päringud peavad olema kasutaja audenditud
                 .and()
                 // meil on selline login page:
@@ -25,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-
+        http.cors();
+        http.csrf().disable();
     }
 
     @Bean // sellega loome beane

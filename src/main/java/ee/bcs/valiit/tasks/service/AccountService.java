@@ -30,7 +30,7 @@ public class AccountService {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     // Create new account with balance WITH SQL
-    public void createAccount(String accNo, BigDecimal balance, int clientId) {
+    public int createAccount(String accNo, BigDecimal balance, int clientId) {
 
         // check if this accNo already exists in DB
         if (accountRepository.ifAccDoesExist(accNo)) {
@@ -38,9 +38,10 @@ public class AccountService {
         }
 
         // Create new account
-        accountRepository.createAccount(accNo, balance, clientId);
-        int idOfAccount = accountRepository.getAccountId(accNo);
+        int idOfAccount = accountRepository.createAccount(accNo, balance, clientId);
+        //int idOfAccount = accountRepository.getAccountId(accNo);
         accountRepository.putTransactionHistory(null, idOfAccount, balance.abs(), "openAccountDeposit");
+        return idOfAccount;
     }
 
     // Get list of accounts WITH SQL

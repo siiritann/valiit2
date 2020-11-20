@@ -51,9 +51,6 @@
     <input type="button" id="login" class="btn btn-info" value="LOGIN"><br><br>
     <p id="errorlogin"></p>
 </div>
-
-
-<!-- CREATE NEW CLIENT ONCLICK CREATE ACCOUNT BUTTON-->
 <script>
 
     // 1 - CREATE NEW CLIENT
@@ -79,7 +76,7 @@
 
     function createClient(client) {
         // Send the JavaScript company object to the server...
-        return fetch('http://localhost:8080/newclient',
+        return fetch('http://localhost:8080/newclient', // PANE SIIA ÕIGE URL
             {
                 method: 'POST',
                 headers: {
@@ -87,9 +84,11 @@
                 },
                 body: JSON.stringify(client)
             }
-        ).then(
-            function (result) {
-                location.href = 'welcomepagenewclient.html';
+        ).then(result => result.text()) // POOLELI TEE KORDA
+            .then(
+                function (result) {
+                alert(result);
+                location.href = 'welcomepagenewclient.html?id=' + result;
             }
         );
     }

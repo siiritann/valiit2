@@ -12,33 +12,42 @@
     <h1>This is your account page</h1>
     <h2>You have successfully logged in</h2>
     <div>
-    <h5>Your clientID is: </h5>
+        <h5>Your clientID is: </h5>
         <p class="clientId"></p>
     </div>
 
     <label for="accountNo">Write your account number here</label>
     <input type="text" id="accountNo"><br><br>
 
-    <input type="button" id="getBalanceButton" class="btn btn-info" value="GET BALANCE FOR THIS ACCOUNT"><br><br>
-    <table id="balancesTable" border="1" align="center"></table><br><br>
+    <input type="button" id="getBalanceButton" class="btn btn-info"
+           value="GET BALANCE HISTORY FOR THIS ACCOUNT"><br><br>
+    <table id="balancesTable" border="1" align="center"></table>
+    <br><br>
     <p id="p"></p><br><br>
 
     <h6>Your accounts are listed here</h6>
     <table id="siiriTable" border="1" align="center"></table>
     <br><br>
-    <form>
-        <input type="submit" value="Create new account for me please">
-    </form>
+    <input type="submit" id="deposit" class="btn btn-success"
+           value="DEPOSIT MONEY" onclick="window.location.href='http://localhost:8080/deposit.html';"><br><br>
+    <input type="submit" id="withdraw" class="btn btn-warning"
+           value="WITHDRAW MONEY" onclick="window.location.href='http://localhost:8080/withdraw.html';"><br><br>
+    <input type="submit" id="transfer" class="btn btn-dark"
+           value="TRANSFER MONEY" onclick="window.location.href='http://localhost:8080/transfer.html';"><br><br>
+<!--    <form>-->
+<!--        <input type="button" value="Create new account for me please" id="createaccountbutton">-->
+<!--    </form>-->
 </div>
 <script>
 
     // 1 - GET ACCOUNTS FOR THIS CLIENT
 
     // NETIST KOOD MIS VÕTAB URLILT query parameter id = väärtuse
-    function get(name){
-        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+    function get(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
             return decodeURIComponent(name[1]);
     }
+
     let clientId = get("id");
 
     // fetch('http://localhost:8080/accountsforclient/' + 2)
@@ -65,106 +74,76 @@
                     newCell4.innerText = accounts[i].clientId;
                     newRow.append(newCell4);
                     accountsTable.append(newRow);
-
-                    // ADD INTO TABLE
-                    // let balancesTable = document.getElementById("balancesTable");
-                    // let newRow = document.createElement("tr");
-                    // let newCell = document.createElement("td");
-                    // newRow.append(newCell);
-                    // balancesTable.append(newRow);
-
-                    // ADD INTO PARAGRAPH - 1
-                    // let newElement = document.createElement("ol");
-                    // newElement.innerHTML = balances;
-                    // p.append(balances);
-
-                    // ADD INTO PARAGRAPH - 2
-
                 }
             }
-            );
+        );
 
 
-    // GET  BALANCE FOR ONE ACCOUNT
+    // 3 - GET TRANSACTION HISTORY FOR ONE ACCOUNT
     let balanceButton = document.getElementById("getBalanceButton");
     balanceButton.onclick = function () {
         let accNo = document.getElementById("accountNo").value;
-        fetch('http://localhost:8080/account/' + accNo)
+        fetch('http://localhost:8080/historyofaccount/' + accNo)
             .then(result => result.json())
             .then(
-                function (balances) {
-                    // console.log(balances);
+                function (history) {
+                    console.log(history);
+                    let balancesTable = document.getElementById("balancesTable");
+                    let newRow = document.createElement("tr");
+                    let th1 = document.createElement("th");
+                    th1.innerText = "id";
+                    newRow.append(th1);
+                    let th2 = document.createElement("th");
+                    th2.innerText = "fromAccountId";
+                    newRow.append(th2);
+                    let th3 = document.createElement("th");
+                    th3.innerText = "toAccountId";
+                    newRow.append(th3);
+                    let th4 = document.createElement("th");
+                    th4.innerText = "amount";
+                    newRow.append(th4);
+                    let th5 = document.createElement("th");
+                    th5.innerText = "type";
+                    newRow.append(th5);
 
-                    // ADD INTO TABLE
-                    // let balancesTable = document.getElementById("balancesTable");
-                    // let newRow = document.createElement("tr");
-                    // let newCell = document.createElement("td");
-                    // newRow.append(newCell);
-                    // balancesTable.append(newRow);
-
-                    // ADD INTO PARAGRAPH - 1
-                    // let newElement = document.createElement("ol");
-                    // newElement.innerHTML = balances;
-                    // p.append(balances);
-
-                    // ADD INTO PARAGRAPH - 2
-                    p.append(balances);
-
+                    balancesTable.append(newRow);
+                    for (let i = 0; i < history.length; i++) {
+                        let newRow = document.createElement("tr");
+                        let newCell1 = document.createElement("td");
+                        newCell1.innerText = history[i].id;
+                        newRow.append(newCell1);
+                        let newCell2 = document.createElement("td");
+                        newCell2.innerText = history[i].fromAccountId;
+                        newRow.append(newCell2);
+                        let newCell3 = document.createElement("td");
+                        newCell3.innerText = history[i].toAccountId;
+                        newRow.append(newCell3);
+                        let newCell4 = document.createElement("td");
+                        newCell4.innerText = history[i].amount;
+                        newRow.append(newCell4);
+                        let newCell5 = document.createElement("td");
+                        newCell5.innerText = history[i].type;
+                        newRow.append(newCell5);
+                        balancesTable.append(newRow);
+                    }
                 }
             )
     }
-    // GET ACCOUNT LIST - DEPRECATED
-    // fetch('http://localhost:8080/accountslist')
-    //     .then(result => result.json())
-    //     .then(
-    //         function (accountslist) {
-    //             // console.log(accountslist);
-    //             let table = document.getElementById("siiriTable");
-    //             for (let i = 0; i < accountslist.length; i++) {
-    //                 let newRow = document.createElement("tr");
-    //                 let newCell1 = document.createElement("td");
-    //                 newCell1.innerText = accountslist[i].id;
-    //                 newRow.append(newCell1);
-    //                 let newCell2 = document.createElement("td");
-    //                 newCell2.innerText = accountslist[i].accNo;
-    //                 newRow.append(newCell2);
-    //                 let newCell3 = document.createElement("td");
-    //                 newCell3.innerText = accountslist[i].balance;
-    //                 newRow.append(newCell3);
-    //                 let newCell4 = document.createElement("td");
-    //                 newCell4.innerText = accountslist[i].clientId;
-    //                 newRow.append(newCell4);
-    //                 table.append(newRow);
-    //
-    //                 console.log(accountslist[i]);
-    //                 // console.log(table[i]);
-    //
-    //             }
-    //         }
-    //     );
 
-    // GET ALL BALANCES - DEPRECATED
+
+
+    // 2 - GET  BALANCE FOR ONE ACCOUNT - DEPRECATED
     // let balanceButton = document.getElementById("getBalanceButton");
-    // balanceButton.onclick = function (){
-    //     // fetch('http://localhost:8080/account/{accNo}'){
-    //     fetch('http://localhost:8080/balances')
+    // balanceButton.onclick = function () {
+    //     let accNo = document.getElementById("accountNo").value;
+    //     fetch('http://localhost:8080/account/' + accNo)
     //         .then(result => result.json())
     //         .then(
-    //             function (balances){
-    //                 let table2 = document.getElementById("balancesTable");
-    //                 // let balance = document.getElementById("p");
-    //                 for (let i = 0; i < balances.length; i++) {
-    //                     let newRow = document.createElement("tr");
-    //                     let newCell1 = document.createElement("td");
-    //                     newCell1.innerText = balances[i];
-    //                     newRow.append(newCell1);
-    //                     table2.append(newRow);
-    //                     console.log(balances[i]);
-    //                 }
-    //
+    //             function (balances) {
+    //                 p.append(balances);
     //             }
     //         )
-    // };
+    // }
 
 
 </script>

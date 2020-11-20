@@ -9,7 +9,6 @@
 </head>
 <body class="content">
 <div>
-
     <h1>Welcome to XYZ Bank!</h1>
     <h2>You are now our favourite client</h2>
     <div>
@@ -17,144 +16,41 @@
         <p class="clientId"></p>
         <p id="p"></p><br><br>
         <form>
-            <input type="submit" value="Create new account for me please">
+            <label for="insertAccNo">I want this to be my Account Number: </label>
+            <input type="text" id="insertAccNo"><br><br>
+            <input type="button" value="Create new account for me please" id="createaccountbutton">
         </form>
     </div>
     <br><br>
 </div>
 <script>
 
-    // GET ACCOUNTS FOR THIS CLIENT
-    // let accNo = document.getElementById("accountNo").value;
-    let clientId = document.getElementById("accountNo").value;
 
-    fetch('http://localhost:8080/accountsforclient/' + 2)
-    // fetch('http://localhost:8080/accountsforclient/' + clientId)
-        .then(result => result.json())
-        .then(
-            function (accounts) {
-                console.log(accounts);
-                let accountsTable = document.getElementById("siiriTable");
+    // 1 - CREATE NEW ACCOUNT
 
-                // p.append(accounts);
-                for (let i = 0; i < accounts.length; i++) {
-                    let newRow = document.createElement("tr");
-                    let newCell1 = document.createElement("td");
-                    newCell1.innerText = accounts[i].id;
-                    newRow.append(newCell1);
-                    let newCell2 = document.createElement("td");
-                    newCell2.innerText = accounts[i].accNo;
-                    newRow.append(newCell2);
-                    let newCell3 = document.createElement("td");
-                    newCell3.innerText = accounts[i].balance;
-                    newRow.append(newCell3);
-                    let newCell4 = document.createElement("td");
-                    newCell4.innerText = accounts[i].clientId;
-                    newRow.append(newCell4);
-                    accountsTable.append(newRow);
+    let postbutton = document.getElementById("createaccountbutton");
+    let clientId = '2';
 
-                    // ADD INTO TABLE
-                    // let balancesTable = document.getElementById("balancesTable");
-                    // let newRow = document.createElement("tr");
-                    // let newCell = document.createElement("td");
-                    // newRow.append(newCell);
-                    // balancesTable.append(newRow);
+    postbutton.addEventListener("click", function (){
+        createAccount(clientId);
 
-                    // ADD INTO PARAGRAPH - 1
-                    // let newElement = document.createElement("ol");
-                    // newElement.innerHTML = balances;
-                    // p.append(balances);
+    });
 
-                    // ADD INTO PARAGRAPH - 2
-
+    function createAccount(clientId){
+        let accNo = document.getElementById("insertAccNo").value;
+        return fetch('http://localhost:8080/accountwithoutbalance?accNo=' + accNo + '&clientId=' + clientId,
+            {
+                method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
                 }
             }
-            );
-
-
-    // GET  BALANCE FOR ONE ACCOUNT
-    let balanceButton = document.getElementById("getBalanceButton");
-    balanceButton.onclick = function () {
-        let accNo = document.getElementById("accountNo").value;
-        fetch('http://localhost:8080/account/' + accNo)
-            .then(result => result.json())
-            .then(
-                function (balances) {
-                    // console.log(balances);
-
-                    // ADD INTO TABLE
-                    // let balancesTable = document.getElementById("balancesTable");
-                    // let newRow = document.createElement("tr");
-                    // let newCell = document.createElement("td");
-                    // newRow.append(newCell);
-                    // balancesTable.append(newRow);
-
-                    // ADD INTO PARAGRAPH - 1
-                    // let newElement = document.createElement("ol");
-                    // newElement.innerHTML = balances;
-                    // p.append(balances);
-
-                    // ADD INTO PARAGRAPH - 2
-                    p.append(balances);
-
-                }
-            )
+        ).then (
+            function (result){
+                location.href = 'welcomepageforclient.html?id=' + clientId;
+            }
+        )
     }
-    // GET ACCOUNT LIST - DEPRECATED
-    // fetch('http://localhost:8080/accountslist')
-    //     .then(result => result.json())
-    //     .then(
-    //         function (accountslist) {
-    //             // console.log(accountslist);
-    //             let table = document.getElementById("siiriTable");
-    //             for (let i = 0; i < accountslist.length; i++) {
-    //                 let newRow = document.createElement("tr");
-    //                 let newCell1 = document.createElement("td");
-    //                 newCell1.innerText = accountslist[i].id;
-    //                 newRow.append(newCell1);
-    //                 let newCell2 = document.createElement("td");
-    //                 newCell2.innerText = accountslist[i].accNo;
-    //                 newRow.append(newCell2);
-    //                 let newCell3 = document.createElement("td");
-    //                 newCell3.innerText = accountslist[i].balance;
-    //                 newRow.append(newCell3);
-    //                 let newCell4 = document.createElement("td");
-    //                 newCell4.innerText = accountslist[i].clientId;
-    //                 newRow.append(newCell4);
-    //                 table.append(newRow);
-    //
-    //                 console.log(accountslist[i]);
-    //                 // console.log(table[i]);
-    //
-    //             }
-    //         }
-    //     );
-
-    // GET ALL BALANCES - DEPRECATED
-    // let balanceButton = document.getElementById("getBalanceButton");
-    // balanceButton.onclick = function (){
-    //     // fetch('http://localhost:8080/account/{accNo}'){
-    //     fetch('http://localhost:8080/balances')
-    //         .then(result => result.json())
-    //         .then(
-    //             function (balances){
-    //                 let table2 = document.getElementById("balancesTable");
-    //                 // let balance = document.getElementById("p");
-    //                 for (let i = 0; i < balances.length; i++) {
-    //                     let newRow = document.createElement("tr");
-    //                     let newCell1 = document.createElement("td");
-    //                     newCell1.innerText = balances[i];
-    //                     newRow.append(newCell1);
-    //                     table2.append(newRow);
-    //                     console.log(balances[i]);
-    //                 }
-    //
-    //             }
-    //         )
-    // };
-
-
 </script>
-
 </body>
 </html>

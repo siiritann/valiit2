@@ -42,7 +42,7 @@ public class TestController {
                 getAuthentication().
                 getPrincipal();
         System.out.println(principal.getName());
-        return "Siiri";
+        return "Siiri ja principal.getName(): " + principal.getName();
     };
 
 
