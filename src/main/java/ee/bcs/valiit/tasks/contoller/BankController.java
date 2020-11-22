@@ -121,37 +121,7 @@ public class BankController {
     }
 
 
-
-    //    createClient WITH SQL WITH QUERY PARAMS
-    @PostMapping("clients")
-    public void createClient(@RequestParam("firstName") String firstName,
-                             @RequestParam("lastName") String lastName) {
-        clientService.createClientWithQueryParams(firstName, lastName);
-    }
-
-    //    createClient WITH REQUEST BODY // TODO POOLELI - lisa firstname lastname kontroll et ei oleks duplikaate
-    @PostMapping("newclient")
-    public void createClient(@RequestBody Client client) {
-        clientService.createClientWithRequestBody(client);
-    }
-
-
-    // get list of clients
-    @GetMapping("clients")
-    public List getClientsList() {
-        return clientService.getClientsList();
-    }
-
-
-    // delete a client - // TODO POOLELI
-    @DeleteMapping("client/{id}")
-    public List deleteClient(@PathVariable("id") int id){
-        return clientService.getClientsList();
-    }
-
-
     /* DEPRECATED
-
 
     1 - Create new account with balance WITH SQL  // DEPRECATED
      siia võib lisada unikaalsuse kontrolli: kui on siis ei luba teha seda, kui on siis luban teha
