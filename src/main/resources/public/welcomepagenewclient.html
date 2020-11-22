@@ -9,8 +9,8 @@
 </head>
 <body class="content">
 <div>
-    <h1>Welcome to XYZ Bank!</h1>
-    <h2>You are now our favourite client</h2>
+    <h1>Welcome to XYZ Bank!</h1><br>
+    <h2>You are now our favourite client</h2><br>
     <div>
     <h5>Your clientID is: </h5>
         <p class="clientId"></p>
@@ -25,15 +25,23 @@
 </div>
 <script>
 
+    // 1 - GET THIS CLIENT'S ID FROM URL
+    function get(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
+    let clientId = get("id");
 
-    // 1 - CREATE NEW ACCOUNT
+    let h5 = document.querySelector("h5");
+    console.log(h5);
+    h5.append(clientId);
 
+
+    // 2 - CREATE NEW ACCOUNT
     let postbutton = document.getElementById("createaccountbutton");
-    let clientId = '2';
 
     postbutton.addEventListener("click", function (){
         createAccount(clientId);
-
     });
 
     function createAccount(clientId){

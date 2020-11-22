@@ -1,5 +1,3 @@
-// see klass otsustab, mis kontrolleri exceptionist
-
 package ee.bcs.valiit.tasks.exception;
 
 import org.springframework.http.HttpHeaders;

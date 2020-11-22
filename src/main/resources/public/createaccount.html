@@ -15,36 +15,15 @@
     <h1>THE MOST RELIABLE BANK YOU'LL EVER FIND</h1>
     <form>
         <p><strong> Register yourself here </strong></p>
-
-        <!--<form action="http://localhost:8080/clients?firstName={firstName}&lastName={lastName}" method="post"> EI TÖÖTA -->
-        <!--<form action="welcomepagenewclient.html" method="get">-->
-        <!--    <label for="firstName"> First name:</label>-->
-        <!--    <input type="text" id="firstName" name = "firstName" placeholder="insert first name"><br><br>-->
-        <!--    <label for="lastName"> Last name:</label>-->
-        <!--     <input type="text" id="lastName" name = "lastName"><br><br>-->
-        <!--    <input type="submit" class="btn btn-success" value="CREATE ACCOUNT">-->
-        <!--&lt;!&ndash;    <button type="button" class="btn btn-success" onclick = "welcomepagenewclient.html;">CREATE ACCOUNT</button>&ndash;&gt;-->
-        <!--    <button type="reset" class="btn btn-info" id="my"> Reset form</button>-->
-        <!--&lt;!&ndash;    <script>&ndash;&gt;-->
-        <!--&lt;!&ndash;       let my = document.getElementById("my");&ndash;&gt;-->
-        <!--&lt;!&ndash;       my.onclick = function (){&ndash;&gt;-->
-        <!--&lt;!&ndash;           alert("testing");&ndash;&gt;-->
-        <!--&lt;!&ndash;       }&ndash;&gt;-->
-        <!--&lt;!&ndash;    </script>&ndash;&gt;-->
-        <!--</form>-->
-
         <label for="firstName"> First name:</label>
         <input type="text" id="firstName" name="firstName" placeholder="insert first name"><br><br>
         <label for="lastName"> Last name:</label>
         <input type="text" id="lastName" name="lastName" placeholder="insert last name"><br><br>
-
-        <a href='tos.html' target="_blank">Nõustun tingimustega</a>
-        <input type="checkbox" name="checkbox" id="checkbox2"><br><br>
-
+        <input type="checkbox" name="checkbox" id="checkbox2">
+        <a href='tos.html' target="_blank">Nõustun tingimustega</a><br><br>
         <input type="button" id="createClient" class="btn btn-success" value="CREATE ACCOUNT"><br><br>
         <p id="error"></p>
     </form>
-
     <h3>Already have account?</h3>
     <label for="username">Log in here</label>
     <input type="number" min="1" id="username" placeholder="insert your clientId" t><br><br>
@@ -52,7 +31,6 @@
     <p id="errorlogin"></p>
 </div>
 <script>
-
     // 1 - CREATE NEW CLIENT
     let postButton = document.getElementById("createClient");
     let firstName = document.getElementById("firstName");
@@ -60,12 +38,10 @@
 
     postButton.addEventListener("click", function () {
         if (firstName.value.length <= 0 || lastName.value.length <= 0) {
-            console.log("1");
             let error = "Please insert firstname and lastname";
             let p = document.getElementById("error");
             p.append(error);
         } else {
-            console.log("click");
             let client = {
                 firstName: firstName.value,
                 lastName: lastName.value
@@ -75,8 +51,10 @@
     });
 
     function createClient(client) {
+        let firstName = client.firstName;
+        let lastName = client.lastName;
         // Send the JavaScript company object to the server...
-        return fetch('http://localhost:8080/newclient', // PANE SIIA ÕIGE URL
+        return fetch('http://localhost:8080/createclient?firstName=' + firstName + '&lastName=' + lastName,
             {
                 method: 'POST',
                 headers: {
@@ -84,10 +62,9 @@
                 },
                 body: JSON.stringify(client)
             }
-        ).then(result => result.text()) // POOLELI TEE KORDA
+        ).then(result => result.text())
             .then(
                 function (result) {
-                alert(result);
                 location.href = 'welcomepagenewclient.html?id=' + result;
             }
         );
@@ -99,7 +76,7 @@
 
     loginButton.addEventListener("click", function () {
         if (userName.value < 1) {
-            let errorlogin = "Please insert valid username/clientId";
+            let errorlogin = "Please insert valid clientId";
             let p = document.getElementById("errorlogin");
             p.append(errorlogin);
         } else {
@@ -114,7 +91,6 @@
     }
 
 </script>
-<!--<script src="index.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-popRpmFF9JQgExhfw5tZT4I9/CI5e2QcuUZPOVXb1m7qUmeR2b50u+YFEYe1wgzy"
         crossorigin="anonymous"></script>

@@ -9,12 +9,13 @@
 </head>
 <body class="content">
 <div>
-    <h1>This is your account page</h1>
-    <h2>You have successfully logged in</h2>
+    <h1>This is your account page</h1><br>
     <div>
         <h5>Your clientID is: </h5>
         <p class="clientId"></p>
     </div>
+    <h6>Your accounts are listed here:</h6><br>
+    <table id="siiriTable" border="1" align="center"></table><br>
 
     <label for="accountNo">Write your account number here</label>
     <input type="text" id="accountNo"><br><br>
@@ -25,8 +26,6 @@
     <br><br>
     <p id="p"></p><br><br>
 
-    <h6>Your accounts are listed here</h6>
-    <table id="siiriTable" border="1" align="center"></table>
     <br><br>
     <input type="submit" id="deposit" class="btn btn-success"
            value="DEPOSIT MONEY" onclick="window.location.href='http://localhost:8080/deposit.html';"><br><br>
@@ -34,23 +33,21 @@
            value="WITHDRAW MONEY" onclick="window.location.href='http://localhost:8080/withdraw.html';"><br><br>
     <input type="submit" id="transfer" class="btn btn-dark"
            value="TRANSFER MONEY" onclick="window.location.href='http://localhost:8080/transfer.html';"><br><br>
-<!--    <form>-->
-<!--        <input type="button" value="Create new account for me please" id="createaccountbutton">-->
-<!--    </form>-->
 </div>
 <script>
 
     // 1 - GET ACCOUNTS FOR THIS CLIENT
 
-    // NETIST KOOD MIS VÕTAB URLILT query parameter id = väärtuse
+    // VÕTAB URLILT query parameter id = väärtuse
     function get(name) {
         if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
             return decodeURIComponent(name[1]);
     }
-
     let clientId = get("id");
 
-    // fetch('http://localhost:8080/accountsforclient/' + 2)
+    let h5 = document.querySelector("h5");
+    h5.append(clientId);
+
     fetch('http://localhost:8080/accountsforclient/' + clientId)
         .then(result => result.json())
         .then(
@@ -58,7 +55,6 @@
                 console.log(accounts);
                 let accountsTable = document.getElementById("siiriTable");
 
-                // p.append(accounts);
                 for (let i = 0; i < accounts.length; i++) {
                     let newRow = document.createElement("tr");
                     let newCell1 = document.createElement("td");
@@ -129,24 +125,6 @@
                 }
             )
     }
-
-
-
-    // 2 - GET  BALANCE FOR ONE ACCOUNT - DEPRECATED
-    // let balanceButton = document.getElementById("getBalanceButton");
-    // balanceButton.onclick = function () {
-    //     let accNo = document.getElementById("accountNo").value;
-    //     fetch('http://localhost:8080/account/' + accNo)
-    //         .then(result => result.json())
-    //         .then(
-    //             function (balances) {
-    //                 p.append(balances);
-    //             }
-    //         )
-    // }
-
-
 </script>
-
 </body>
 </html>

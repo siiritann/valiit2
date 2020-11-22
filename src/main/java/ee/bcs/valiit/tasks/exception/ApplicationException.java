@@ -1,9 +1,9 @@
 package ee.bcs.valiit.tasks.exception;
 
 public class ApplicationException extends RuntimeException{
-    private int statusCode = 400; // SIIA PANIME DEFAULT VÄÄRTUSE
+    private int statusCode = 400; // DEFAULT VALUE
     public ApplicationException(String message){
-        super(message); // TODO MIS SEE SUPER TEEB?
+        super(message);
     }
 
     public ApplicationException(String message, Throwable cause) {

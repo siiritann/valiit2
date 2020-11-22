@@ -22,11 +22,6 @@ public class ClientService {
         return clientRepository.createClientWithQueryParamsWithReturn(firstName, lastName);
     }
 
-    //    createClient WITH QUERY PARAMS
-    public void createClientWithQueryParams(String firstName, String lastName) {
-            clientRepository.createClientWithQueryParams(firstName, lastName);
-    }
-
 
     //    createClient WITH REQUEST BODY
     public void createClientWithRequestBody(Client client) {

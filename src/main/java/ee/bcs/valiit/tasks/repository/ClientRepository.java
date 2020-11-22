@@ -37,16 +37,6 @@ public class ClientRepository {
         return (Integer) keyHolder.getKeys().get("id");
     }
 
-    //    createClient WITH QUERY PARAMS
-    public void createClientWithQueryParams(String firstName, String lastName) {
-        String sql = "INSERT INTO client (first_name, last_name) " +
-                "VALUES (:muutuja1, :muutuja2)";
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("muutuja1", firstName);
-        paramMap.put("muutuja2", lastName);
-        jdbcTemplate.update(sql, paramMap);
-    }
-
 
     //    createClient WITH REQUEST BODY
     public void createClientWithRequestBody(Client client) {
