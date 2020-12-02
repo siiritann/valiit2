@@ -131,4 +131,19 @@
     <changeSet id="14" author="siiri">
         <renameColumn tableName="game" oldColumnName="answer" newColumnName="random_number"/>
     </changeSet>
+
+
+    <changeSet id="15" author="siiri">
+        <createTable tableName="book">
+            <column name="id" type="int" autoIncrement="true"><constraints primaryKey="true"/> </column>
+            <column name="name" type="text"/>
+            <column name="author_id" type="int"><constraints foreignKeyName="fk_author_book"/></column>
+        </createTable>
+
+        <createTable tableName="author">
+            <column name="id" type="int" autoIncrement="true"> <constraints primaryKey="true"/> </column>
+            <column name="name" type="text" ></column>
+        </createTable>
+
+    </changeSet>
 </databaseChangeLog>
